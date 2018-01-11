@@ -1,0 +1,71 @@
+package org.usfirst.frc.team2374.robot.subsystems;
+
+import org.usfirst.frc.team2374.robot.Robot;
+import org.usfirst.frc.team2374.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+// TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
+public class Drivetrain extends Subsystem {
+	// no use of RobotDrive for now (there was a potential bug involved in
+	// casting TalonSRX to SpeedController so I copied the relevant methods
+	// if the drivetrain has issues consider going back to using RobotDrive
+	
+	// keep in mind TalonSRX has capability to limit max amperage (look up
+	// CTRE Phoenix documentation)
+	private TalonSRX masterLeft, masterRight, fLeft, fRight, bLeft, bRight;
+	
+	public Drivetrain() {
+		masterLeft = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_LEFT);
+		masterRight = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_RIGHT);
+		fLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
+		fRight = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_RIGHT);
+		bLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
+		bRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
+		
+		fLeft.follow(masterLeft);
+		bLeft.follow(masterLeft);
+		fRight.follow(masterRight);
+		bRight.follow(masterRight);
+
+		masterLeft.setInverted(true);
+		masterRight.setInverted(true);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// setDefaultCommand(TODO);
+	}
+
+
+	public void tankDrive(double leftValue, double rightValue) {
+		leftValue = limit(leftValue);
+		rightValue = limit(rightValue);
+		if (leftValue >= 0.0)
+	        leftValue = leftValue * leftValue;
+	    else
+	        leftValue = -(leftValue * leftValue);
+	    if (rightValue >= 0.0)
+	        rightValue = rightValue * rightValue;
+	    else
+	        rightValue = -(rightValue * rightValue);
+	    masterLeft.set(null, leftValue);
+	    masterRight.set(null, rightValue);
+	}
+	
+	 /**
+	   * Limit motor values to the -1.0 to +1.0 range.
+	   */
+	  private double limit(double num) {
+	    if (num > 1.0)
+	      return 1.0;
+	    if (num < -1.0)
+	      return -1.0;
+	    return num;
+	  }
+
+}
+
