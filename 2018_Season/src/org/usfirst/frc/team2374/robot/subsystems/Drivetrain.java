@@ -52,16 +52,19 @@ public class Drivetrain extends Subsystem {
 	 * while preserving top speed
 	 */
 	public void tankDrive(double leftValue, double rightValue) {
+		// make sure input is capped at 1.0
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
+		// square both inputs while preserving sign
 		if (leftValue >= 0.0)
-	        leftValue = leftValue * leftValue;
+	        leftValue = Math.pow(leftValue, 2);
 	    else
-	        leftValue = -(leftValue * leftValue);
+	        leftValue = -Math.pow(leftValue, 2);
 	    if (rightValue >= 0.0)
-	        rightValue = rightValue * rightValue;
+	        rightValue = Math.pow(rightValue, 2);
 	    else
-	        rightValue = -(rightValue * rightValue);
+	        rightValue = -Math.pow(rightValue, 2);
+	    // set left and right drive
 	    masterLeft.set(null, leftValue);
 	    masterRight.set(null, rightValue);
 	}
