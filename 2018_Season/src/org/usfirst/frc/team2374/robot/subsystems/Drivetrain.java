@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2374.robot.subsystems;
 
-import org.usfirst.frc.team2374.robot.Robot;
 import org.usfirst.frc.team2374.robot.RobotMap;
+import org.usfirst.frc.team2374.robot.commands.DrivetrainTeleop;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -39,9 +39,7 @@ public class Drivetrain extends Subsystem {
 	}
 
 	@Override
-	protected void initDefaultCommand() {
-		// setDefaultCommand(TODO);
-	}
+	protected void initDefaultCommand() { setDefaultCommand(new DrivetrainTeleop()); }
 
 	/**
 	 * 
@@ -71,13 +69,13 @@ public class Drivetrain extends Subsystem {
 	 /**
 	   * Limit motor values to the -1.0 to +1.0 range.
 	   */
-	  private double limit(double num) {
-	    if (num > 1.0)
-	      return 1.0;
+	private double limit(double num) {
+		if (num > 1.0)
+			return 1.0;
 	    if (num < -1.0)
-	      return -1.0;
+	    	return -1.0;
 	    return num;
-	  }
+	}
 
 }
 
