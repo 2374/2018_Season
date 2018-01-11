@@ -19,6 +19,7 @@ public class Drivetrain extends Subsystem {
 	private TalonSRX masterLeft, masterRight, fLeft, fRight, bLeft, bRight;
 	
 	public Drivetrain() {
+		// center motors (masters) are mCIMs, front and back are CIMs
 		masterLeft = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_LEFT);
 		masterRight = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_RIGHT);
 		fLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
@@ -26,11 +27,13 @@ public class Drivetrain extends Subsystem {
 		bLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
 		bRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
 		
+		// set front and back motors to follow center motors
 		fLeft.follow(masterLeft);
 		bLeft.follow(masterLeft);
 		fRight.follow(masterRight);
 		bRight.follow(masterRight);
-
+		
+		// you just always need to do this
 		masterLeft.setInverted(true);
 		masterRight.setInverted(true);
 	}
@@ -40,7 +43,16 @@ public class Drivetrain extends Subsystem {
 		// setDefaultCommand(TODO);
 	}
 
-
+	/**
+	 * 
+	 * @param leftValue desired speed for left drive
+	 * @param rightValue desired speed for right drive
+	 * 
+	 * tankDrive sets speed for left and right side of
+	 * drivetrain independently (like a tank), squares
+	 * inputs (while preserving sign) to improve control
+	 * while preserving top speed
+	 */
 	public void tankDrive(double leftValue, double rightValue) {
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
