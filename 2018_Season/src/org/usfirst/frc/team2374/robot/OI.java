@@ -1,16 +1,27 @@
 package org.usfirst.frc.team2374.robot;
 
+import org.usfirst.frc.team2374.robot.commands.EjectorDown;
+import org.usfirst.frc.team2374.robot.commands.EjectorUp;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	Joystick driver;
+	private Joystick driver;
+	private JoystickButton leftBumper;
+	private JoystickButton rightBumper;
 
 	public OI() {
 		driver = new Joystick(RobotMap.driverJoy);
+		leftBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
+		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
+		
+		leftBumper.whenPressed(new EjectorUp());
+		rightBumper.whenPressed(new EjectorDown());
 	}
 
 	public double getDriverLeftY() { return driver.getRawAxis(RobotMap.rsLeftAxisY); }

@@ -21,10 +21,21 @@ public class RobotMap {
 	public static int rsButtonX = 3;
 	public static int rsButtonY = 4;
 	// CAN
-	public static final int TALON_DRIVE_MASTER_LEFT = 1;
-	public static final int TALON_DRIVE_MASTER_RIGHT = 2;
-	public static final int TALON_DRIVE_FRONT_LEFT = 3;
-	public static final int TALON_DRIVE_FRONT_RIGHT = 4;
-	public static final int TALON_DRIVE_BACK_LEFT = 5;
-	public static final int TALON_DRIVE_BACK_RIGHT = 6;
+	public static final int TALON_DRIVE_MASTER_LEFT = 0;
+	public static final int TALON_DRIVE_MASTER_RIGHT = 1;
+	public static final int TALON_DRIVE_FRONT_LEFT = 2;
+	public static final int TALON_DRIVE_FRONT_RIGHT = 3;
+	public static final int TALON_DRIVE_BACK_LEFT = 4;
+	public static final int TALON_DRIVE_BACK_RIGHT = 5;
+	// PWM
+	public static final int TALON_EJECTOR_1 = 0;
+	public static final int TALON_EJECTOR_2 = 1;
+	public static final int TALON_EJECTOR_3 = 2;
+	public static final int TALON_EJECTOR_4 = 3;
+	public static final int TALON_KICKER = 4;
+	public static final int TALON_ELEVATION_1 = 5;
+	public static final int TALON_ELEVATION_2 = 6;
+	// DIO
+	public static final int SCALE_LIMIT_SWITCH = 0;
+	public static final int INTAKE_LIMIT_SWITCH = 1;
 }
