@@ -41,26 +41,26 @@ public class Ejector extends Subsystem {
 	
 	// there is a very good chance that all of these are backwards
 	public void scaleForward() {
-		eject1.setSpeed(SCALE_SPEED_1);
+		eject1.setSpeed(-SCALE_SPEED_1);
 		eject2.setSpeed(-SCALE_SPEED_1);
 		
-		eject3.setSpeed(-SCALE_SPEED_2);
+		eject3.setSpeed(SCALE_SPEED_2);
 		eject4.setSpeed(SCALE_SPEED_2);
 	}
 	
 	public void switchForward() {
-		eject1.setSpeed(SWITCH_SPEED);
+		eject1.setSpeed(-SWITCH_SPEED);
 		eject2.setSpeed(-SWITCH_SPEED);
 		
-		eject3.setSpeed(-SWITCH_SPEED);
+		eject3.setSpeed(SWITCH_SPEED);
 		eject4.setSpeed(SWITCH_SPEED);
 	}
 	
 	public void intakeIn() {
-		eject1.setSpeed(-INTAKE_SPEED);
+		eject1.setSpeed(INTAKE_SPEED);
 		eject2.setSpeed(INTAKE_SPEED);
 		
-		eject3.setSpeed(INTAKE_SPEED);
+		eject3.setSpeed(-INTAKE_SPEED);
 		eject4.setSpeed(-INTAKE_SPEED);
 	}
 	
