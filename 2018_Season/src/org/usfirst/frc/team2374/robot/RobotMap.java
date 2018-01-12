@@ -20,6 +20,8 @@ public class RobotMap {
 	public static int rsButtonB = 2;
 	public static int rsButtonX = 3;
 	public static int rsButtonY = 4;
+	public static int rsButtonBack = 7;
+	public static int rsButtonStart = 8;
 	// CAN
 	public static final int TALON_DRIVE_MASTER_LEFT = 0;
 	public static final int TALON_DRIVE_MASTER_RIGHT = 1;
@@ -35,6 +37,9 @@ public class RobotMap {
 	public static final int TALON_KICKER = 4;
 	public static final int TALON_ELEVATION_1 = 5;
 	public static final int TALON_ELEVATION_2 = 6;
+	public static final int TALON_CLIMBER_1 = 7;
+	public static final int TALON_CLIMBER_2 = 8;
+	public static final int TALON_FAN = 9;
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 0;
 	public static final int INTAKE_LIMIT_SWITCH = 1;

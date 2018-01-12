@@ -47,5 +47,9 @@ public class OI {
 	public boolean getLeftBumper() { return driver.getRawButton(RobotMap.rsLeftBumper); }
 
 	public boolean getRightBumper() { return driver.getRawButton(RobotMap.rsRightBumper); }
+	
+	public boolean getButtonBack() { return driver.getRawButton(RobotMap.rsButtonBack); }
+	
+	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
 
 }

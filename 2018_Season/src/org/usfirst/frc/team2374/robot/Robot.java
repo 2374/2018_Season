@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2374.robot.subsystems.Ejector;
 
@@ -20,6 +21,7 @@ import org.usfirst.frc.team2374.robot.subsystems.Ejector;
  */
 public class Robot extends IterativeRobot {
 
+	public static Climber climb;
 	public static Drivetrain drive;
 	public static Ejector eject;
 	public static OI oi;
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		climb = new Climber();
 		drive = new Drivetrain();
 		eject = new Ejector();
 		oi = new OI();
