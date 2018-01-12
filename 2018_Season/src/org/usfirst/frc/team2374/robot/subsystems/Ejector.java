@@ -21,6 +21,7 @@ public class Ejector extends Subsystem {
 	private static final double SWITCH_SPEED = 0.25;
 	private static final double INTAKE_SPEED = 0.1;
 	private static final double KICKER_SPEED = 0.5;
+	private static final double KICKER_TIMEOUT = 2.5;
 	private static final double ELEVATION_SPEED = 0.3;
 	
 	public Ejector() {
@@ -75,6 +76,8 @@ public class Ejector extends Subsystem {
 	
 	public void kickerStop() { kicker.setSpeed(0); }
 	
+	public double getKickerTimeout() { return KICKER_TIMEOUT; }
+
 	public void angleUp() {
 		elev1.setSpeed(ELEVATION_SPEED);
 		elev2.setSpeed(-ELEVATION_SPEED);

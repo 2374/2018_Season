@@ -19,11 +19,11 @@ public EjectorTeleop() { requires(Robot.eject); }
 		// position and no variable position)
 		
 		// currently right and left bumper cause shooter to raise
-		// or lower
-		// this functionality is currently in the OI and needs to
+		// or lower and button y causes kicker to trigger for a couple seconds
+		// these functionalities are currently in the OI and need to
 		// be tested, possible fixes include creating command instances
-		// in this command instead of OI or recreating their functionalities 
-		// in here
+		// in this command instead of OI, recreating their functionalities 
+		// in here, or creating separate subsystems for rotation and for kicker
 		
 		// you'll almost definitely have to change the buttons later
 		if (Robot.oi.getButtonA())
@@ -34,15 +34,6 @@ public EjectorTeleop() { requires(Robot.eject); }
 			Robot.eject.intakeIn();
 		else
 			Robot.eject.flyWheelsStop();
-		// test the toggle
-		if (Robot.oi.getButtonY() && !toggle) {
-			toggle = true;
-			Robot.eject.kick();
-		}
-		else if (Robot.oi.getButtonY() && toggle) {
-			toggle = false;
-			Robot.eject.kickerStop();
-		}
 	}
 
 	@Override

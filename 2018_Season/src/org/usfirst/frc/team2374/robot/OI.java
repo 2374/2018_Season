@@ -2,6 +2,7 @@ package org.usfirst.frc.team2374.robot;
 
 import org.usfirst.frc.team2374.robot.commands.EjectorDown;
 import org.usfirst.frc.team2374.robot.commands.EjectorUp;
+import org.usfirst.frc.team2374.robot.commands.KickerRotation;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -14,14 +15,17 @@ public class OI {
 	private Joystick driver;
 	private JoystickButton leftBumper;
 	private JoystickButton rightBumper;
+	private JoystickButton buttonY;
 
 	public OI() {
 		driver = new Joystick(RobotMap.driverJoy);
 		leftBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
 		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
+		buttonY = new JoystickButton(driver, RobotMap.rsButtonY);
 		
 		leftBumper.whenPressed(new EjectorUp());
 		rightBumper.whenPressed(new EjectorDown());
+		buttonY.whenPressed(new KickerRotation(Robot.eject.getKickerTimeout()));
 	}
 
 	public double getDriverLeftY() { return driver.getRawAxis(RobotMap.rsLeftAxisY); }
