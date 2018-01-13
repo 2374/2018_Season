@@ -70,8 +70,8 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	 /**
-	   * Limit motor values to the -1.0 to +1.0 range.
-	   */
+	  * Limit motor values to the -1.0 to +1.0 range.
+	  */
 	private double limit(double num) {
 		if (num > 1.0)
 			return 1.0;

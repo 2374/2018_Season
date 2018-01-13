@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class EjectorTeleop extends Command {
 
 public EjectorTeleop() { requires(Robot.eject); }
-	private boolean toggle = false;
 	
 	@Override
 	protected void initialize() { }
