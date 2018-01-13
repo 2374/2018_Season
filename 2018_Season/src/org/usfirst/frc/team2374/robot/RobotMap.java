@@ -43,4 +43,8 @@ public class RobotMap {
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 0;
 	public static final int INTAKE_LIMIT_SWITCH = 1;
+	public static final int ENCODER_DRIVE_LA = 2;
+	public static final int ENCODER_DRIVE_LB = 3;
+	public static final int ENCODER_DRIVE_RA = 4;
+	public static final int ENCODER_DRIVE_RB = 5;
 }

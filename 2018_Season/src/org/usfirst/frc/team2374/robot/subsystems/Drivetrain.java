@@ -2,10 +2,16 @@ package org.usfirst.frc.team2374.robot.subsystems;
 
 import org.usfirst.frc.team2374.robot.RobotMap;
 import org.usfirst.frc.team2374.robot.commands.DrivetrainTeleop;
+import org.usfirst.frc.team2374.util.TwoEncoderPIDSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 // TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
@@ -17,6 +23,17 @@ public class Drivetrain extends Subsystem {
 	// keep in mind TalonSRX has capability to limit max amperage (look up
 	// CTRE Phoenix documentation)
 	private TalonSRX masterLeft, masterRight, fLeft, fRight, bLeft, bRight;
+	// if these don't work look up CTRE magnetic encoders (the ones that go on a talon because fuck everything)
+	private Encoder leftEncoder, rightEncoder;
+	private TwoEncoderPIDSource driveIn;
+	private PIDController drivePID;
+	
+	private static final double MAX_AUTO_SPEED = 1;
+	// these all need to be calibrated
+	private static final double DRIVE_P = 0.03;
+	private static final double DRIVE_I = 0.000;
+	private static final double DRIVE_D = 0;
+			
 	
 	public Drivetrain() {
 		// center motors (masters) are mCIMs, front and back are CIMs
@@ -36,6 +53,16 @@ public class Drivetrain extends Subsystem {
 		// you just always need to do this
 		masterLeft.setInverted(true);
 		masterRight.setInverted(true);
+		
+		leftEncoder = new Encoder(RobotMap.ENCODER_DRIVE_LA, RobotMap.ENCODER_DRIVE_LB, false, CounterBase.EncodingType.k4X);
+		rightEncoder = new Encoder(RobotMap.ENCODER_DRIVE_RA, RobotMap.ENCODER_DRIVE_RB, true, CounterBase.EncodingType.k4X);
+		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		
+		driveIn = new TwoEncoderPIDSource(leftEncoder, rightEncoder);
+		drivePID = new PIDController(DRIVE_P, DRIVE_I, DRIVE_D, driveIn, new PIDOutput() { public void pidWrite(double arg0) { } });
+		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+		drivePID.setContinuous(false);
 	}
 
 	@Override
