@@ -52,19 +52,19 @@ public class Ejector extends Subsystem {
 	// there is a very good chance that all of these are backwards
 	public void scaleForward() {
 		double startTime = Timer.getFPGATimestamp();
-		while (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME) {
-			eject1.setSpeed(-SCALE_RAMP_SPEED);
-			eject2.setSpeed(-SCALE_RAMP_SPEED);
-			eject3.setSpeed(SCALE_RAMP_SPEED);
-			eject4.setSpeed(SCALE_RAMP_SPEED);
-			// this shouldn't be necessary but I really don't want an infinite loop
-			if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME)
-				break;
+		eject1.setSpeed(-SCALE_RAMP_SPEED);
+		eject2.setSpeed(-SCALE_RAMP_SPEED);
+		eject3.setSpeed(SCALE_RAMP_SPEED);
+		eject4.setSpeed(SCALE_RAMP_SPEED);
+		// if this doesn't work go back to putting the first speed setting in
+		// the while loop, we're going with this for now because there's no
+		// chance of an infinite loop
+		if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME) {
+			eject1.setSpeed(-SCALE_SPEED_1);
+			eject2.setSpeed(-SCALE_SPEED_1);
+			eject3.setSpeed(SCALE_SPEED_2);
+			eject4.setSpeed(SCALE_SPEED_2);
 		}
-		eject1.setSpeed(-SCALE_SPEED_1);
-		eject2.setSpeed(-SCALE_SPEED_1);
-		eject3.setSpeed(SCALE_SPEED_2);
-		eject4.setSpeed(SCALE_SPEED_2);
 	}
 	
 	public void switchForward() {
