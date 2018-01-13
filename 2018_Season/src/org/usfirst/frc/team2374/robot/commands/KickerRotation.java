@@ -12,10 +12,10 @@ public class KickerRotation extends TimedCommand {
 	}
 	
 	@Override
-	protected void initialize() { }
+	protected void initialize() { Robot.eject.kick(); }
 	
 	@Override
-	protected void execute() { Robot.eject.kick(); }
+	protected void execute() { }
 
 	@Override
 	protected boolean isFinished() { return super.isTimedOut(); }

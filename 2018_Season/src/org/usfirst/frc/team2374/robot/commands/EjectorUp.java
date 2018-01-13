@@ -2,11 +2,14 @@ package org.usfirst.frc.team2374.robot.commands;
 
 import org.usfirst.frc.team2374.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class EjectorUp extends Command {
+public class EjectorUp extends TimedCommand {
 	
-	public EjectorUp() { requires(Robot.eject); }
+	public EjectorUp(double timeout) { 
+		super(timeout);
+		requires(Robot.eject);
+	}
 	
 	@Override
 	protected void initialize() { Robot.eject.angleUp(); }
@@ -15,7 +18,7 @@ public class EjectorUp extends Command {
 	protected void execute() { }
 
 	@Override
-	protected boolean isFinished() { return Robot.eject.atScalePos(); }
+	protected boolean isFinished() { return Robot.eject.atScalePos() || super.isTimedOut(); }
 	
 	@Override
 	protected void end() { Robot.eject.stopRotation(); }

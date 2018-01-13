@@ -3,6 +3,7 @@ package org.usfirst.frc.team2374.robot;
 import org.usfirst.frc.team2374.robot.commands.EjectorDown;
 import org.usfirst.frc.team2374.robot.commands.EjectorUp;
 import org.usfirst.frc.team2374.robot.commands.KickerRotation;
+import org.usfirst.frc.team2374.robot.subsystems.Ejector;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -16,6 +17,9 @@ public class OI {
 	private JoystickButton leftBumper;
 	private JoystickButton rightBumper;
 	private JoystickButton buttonY;
+	
+	// this value requires extensive testing, it may not be used at all
+	private static final double DEAD_ZONE_VAL = 0.05;
 
 	public OI() {
 		driver = new Joystick(RobotMap.driverJoy);
@@ -23,18 +27,18 @@ public class OI {
 		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
 		buttonY = new JoystickButton(driver, RobotMap.rsButtonY);
 		
-		leftBumper.whenPressed(new EjectorUp());
-		rightBumper.whenPressed(new EjectorDown());
-		buttonY.whenPressed(new KickerRotation(Robot.eject.getKickerTimeout()));
+		leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT));
+		rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT));
+		buttonY.whenPressed(new KickerRotation(Ejector.KICKER_TIMEOUT));
 	}
 
-	public double getDriverLeftY() { return driver.getRawAxis(RobotMap.rsLeftAxisY); }
+	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL); }
 
-	public double getDriverRightY() { return driver.getRawAxis(RobotMap.rsRightAxisY); }
+	public double getDriverRightY() { return deadZone(driver.getRawAxis(RobotMap.rsRightAxisY), DEAD_ZONE_VAL); }
 
-	public double getLeftTrigger() { return driver.getRawAxis(RobotMap.rsLeftTrigger); }
+	public double getLeftTrigger() { return deadZone(driver.getRawAxis(RobotMap.rsLeftTrigger), DEAD_ZONE_VAL); }
 
-	public double getRightTrigger() { return driver.getRawAxis(RobotMap.rsRightTrigger); }
+	public double getRightTrigger() { return deadZone(driver.getRawAxis(RobotMap.rsRightTrigger), DEAD_ZONE_VAL); }
 
 	public boolean getButtonA() { return driver.getRawButton(RobotMap.rsButtonA); }
 	
@@ -51,5 +55,17 @@ public class OI {
 	public boolean getButtonBack() { return driver.getRawButton(RobotMap.rsButtonBack); }
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
+	
+	// if input is close to 0, +/-1 set it to 0, +/-1, this is still experimental
+	public static double deadZone(double axisValue, double deadValue) {
+		if (Math.abs(axisValue) < deadValue)
+			return 0;
+		else if (1 - axisValue < deadValue)
+			return 1;
+		else if (-1 - axisValue > -deadValue)
+			return -1;
+		else
+			return axisValue;
+	}
 
 }
