@@ -18,7 +18,6 @@ public class OI {
 	private JoystickButton rightBumper;
 	private JoystickButton buttonY;
 	
-	// TODO(CR): Nit: Capitalization
 	// This value requires extensive testing, it may not be used at all
 	private static final double DEAD_ZONE_VAL = 0.05;
 
@@ -28,9 +27,9 @@ public class OI {
 		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
 		buttonY = new JoystickButton(driver, RobotMap.rsButtonY);
 		
-		leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT));
-		rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT));
-		buttonY.whenPressed(new KickerRotation(Ejector.KICKER_TIMEOUT));
+		leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT_S));
+		rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT_S));
+		buttonY.whenPressed(new KickerRotation(Ejector.KICKER_TIMEOUT_S));
 	}
 
 	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL); }
@@ -57,8 +56,6 @@ public class OI {
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
 	
-	// TODO(CR): This comment is a bit confusingly worded. Also, use JavaDoc comments for
-	//           method/class comments. Example:
 	/**
 	 * Snaps the provided axisValue to 0, 1, or -1 if it is within deadValue of one of those
 	 * values.
@@ -66,7 +63,6 @@ public class OI {
 	 * @param deadValue The size of the deadzone
 	 * @return axisValue with the deadzone applied
 	 */
-	// if input is close to 0, +/-1 set it to 0, +/-1, this is still experimental
 	public static double deadZone(double axisValue, double deadValue) {
 		if (Math.abs(axisValue) < deadValue)
 			return 0;

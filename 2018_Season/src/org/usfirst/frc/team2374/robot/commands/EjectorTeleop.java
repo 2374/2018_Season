@@ -4,17 +4,22 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Default ejector command, controls flywheels for delivery to
+ * scale and switch as well as for cube intake. Control of ejector
+ * elevation and the kicker motor is implemented elsewhere.
+ * @author robotics
+ *
+ */
 public class EjectorTeleop extends Command {
 
-// TODO(CR): MochaDoc
-public EjectorTeleop() { requires(Robot.eject); }
+	public EjectorTeleop() { requires(Robot.eject); }
 	
 	@Override
 	protected void initialize() { }
 	
 	@Override
 	protected void execute() {
-		// TODO(CR): Nit: Capitalization and punctuation
 		// currently assumes that ejector is either at intake position
 		// or scale position (in other words no specific switch
 		// position and no variable position)

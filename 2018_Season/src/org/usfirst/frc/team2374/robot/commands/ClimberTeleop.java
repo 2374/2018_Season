@@ -4,7 +4,12 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-// TODO(CR): Add JavaDoc class comment
+/**
+ * Default climber command, controls winch and fan motors in 
+ * order to attack the hook to the rung and lift the robot up
+ *
+ * @author robotics
+ */
 public class ClimberTeleop extends Command {
 	
 	public ClimberTeleop() { requires(Robot.climb); }

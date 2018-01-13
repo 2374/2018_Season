@@ -18,18 +18,30 @@ public class Climber extends Subsystem {
 	@Override
 	protected void initDefaultCommand() { setDefaultCommand(new ClimberTeleop()); }
 	
+	/**
+	 * Called when starting to climb
+	 */
 	public void climbUp() {
 		climb1.setSpeed(1);
 		climb2.setSpeed(1);
 	}
 	
+	/**
+	 * Called when done climbing
+	 */
 	public void climbStop() {
 		climb1.setSpeed(0);
 		climb2.setSpeed(0);
 	}
 	
+	/**
+	 * Called when inflating tube
+	 */
 	public void fan() { fan.setSpeed(1); }
 	
+	/**
+	 * Called when deflating tube
+	 */
 	public void fanOff() { fan.setSpeed(0); }
 
 }

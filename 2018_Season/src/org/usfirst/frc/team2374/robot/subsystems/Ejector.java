@@ -13,6 +13,7 @@ public class Ejector extends Subsystem {
 	private Talon eject1, eject2, eject3, eject4, kicker, elev1, elev2;
 	// there is a very good chance that neither of the limit switches work
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
+	private double startTime = 0;
 	
 	// two scale speeds mean one side of the box gets an extra
 	// push, causing the box to start rotating
@@ -25,16 +26,14 @@ public class Ejector extends Subsystem {
 	// testing to determine whether we should use this, what the speed
 	// should be, and how long it should ramp up for
 	private static final double SCALE_RAMP_SPEED = 0.7;
-	// TODO(CR): Nit: Include units in time constants, e.g. TIME_S or TIME_MS
-	private static final double SCALE_RAMP_TIME = 0.25;
+	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.25;
 	private static final double INTAKE_SPEED = 0.1;
 	private static final double KICKER_SPEED = 0.5;
 	private static final double ELEVATION_SPEED = 0.3;
 
-	// TODO(CR): Units here, too
-	public static final double ELEVATE_TIMEOUT = 5.0;
-	public static final double KICKER_TIMEOUT = 2.5;
+	public static final double ELEVATE_TIMEOUT_S = 5.0;
+	public static final double KICKER_TIMEOUT_S = 2.5;
 	
 	public Ejector() {
 		eject1 = new Talon(RobotMap.TALON_EJECTOR_1);
@@ -51,73 +50,74 @@ public class Ejector extends Subsystem {
 	@Override
 	protected void initDefaultCommand() { setDefaultCommand(new EjectorTeleop()); }
 	
+	/**
+	 * Called when delivering to scale, sets the left and right flywheels
+	 * to slightly different speeds in order to give the cube some spin
+	 * and sets the flywheels to an intermediate speed for a fraction of
+	 * a second before moving to full speed
+	 */
 	// there is a very good chance that all of these are backwards
 	public void scaleForward() {
-		// TODO(CR): The logic here looks all wrong - startTime is always going to be set to the
-		//           current time, so the if check below will always fail. Additionally,
-		//           always setting the speed to ramp speed seems wrong. Suggested solution:
-		// 1. Move startTime to be a member variable, and whenever a different code path is taken
-		//    (from what I can tell, switchForward, intakeIn, or flyWheelStop are called), set it
-		//    to 0. Then, use logic like this:
-		//
-		// if (startTime == 0) startTime = Timer.getFPGATimestamp();
-		// if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME) {
-		//     <set full speed>
-		// } else {
-		//     <set ramp speed>
-		// }
-		double startTime = Timer.getFPGATimestamp();
-		eject1.setSpeed(-SCALE_RAMP_SPEED);
-		eject2.setSpeed(-SCALE_RAMP_SPEED);
-		eject3.setSpeed(SCALE_RAMP_SPEED);
-		eject4.setSpeed(SCALE_RAMP_SPEED);
-		// if this doesn't work go back to putting the first speed setting in
-		// the while loop, we're going with this for now because there's no
-		// chance of an infinite loop
-		if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME) {
-			eject1.setSpeed(-SCALE_SPEED_1);
-			eject2.setSpeed(-SCALE_SPEED_1);
-			eject3.setSpeed(SCALE_SPEED_2);
-			eject4.setSpeed(SCALE_SPEED_2);
-		}
+		if (startTime == 0)
+			startTime = Timer.getFPGATimestamp();
+		if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME_S)
+			setEjectorSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
+		else
+			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
 	}
 	
+	/**
+	 * Called when delivering to switch
+	 */
 	public void switchForward() {
-		// TODO(CR): I would recommend adding a sestEjectorSpeed function or something that would
-		//           look like:
-		// public void setEjectorSpeed(double speed) {
-		//     eject1.setSpeed(-1 * speed);
-		//     eject2.setSpeed(-1 * speed);
-		//     eject3.setSpeed(speed);
-		//     eject4.setSpeed(speed);
-		// }
-		// It looks like eject1/2 and 3/4 are always set to the same values, and 1/2 and 3/4 are
-		// always opposite of each other, so the above should work for all the cases where you
-		// set all 4 ejectors?
-		eject1.setSpeed(-SWITCH_SPEED);
-		eject2.setSpeed(-SWITCH_SPEED);	
-		eject3.setSpeed(SWITCH_SPEED);
-		eject4.setSpeed(SWITCH_SPEED);
+		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
+		startTime = 0;
 	}
 	
+	/**
+	 * Called when intaking cubes
+	 */
 	public void intakeIn() {
-		eject1.setSpeed(INTAKE_SPEED);
-		eject2.setSpeed(INTAKE_SPEED);
-		eject3.setSpeed(-INTAKE_SPEED);
-		eject4.setSpeed(-INTAKE_SPEED);
+		setEjectorSpeed(-INTAKE_SPEED, -INTAKE_SPEED);
+		startTime = 0;
 	}
 	
+	/**
+	 * called when stopping flywheels
+	 */
 	public void flyWheelsStop() {
-		eject1.setSpeed(0);
-		eject2.setSpeed(0);
-		eject3.setSpeed(0);
-		eject4.setSpeed(0);
+		setEjectorSpeed(0, 0);
+		startTime = 0;
 	}
-	// push the cube into the fly wheels
+	
+	/**
+	 * Set the flywheel speed, allows the left and right flywheels
+	 * to be set to different values, regardless of speed the left 
+	 * and right flywheels spin in opposite directions
+	 * 
+	 * @param speed1 left flywheel speed
+	 * @param speed2 right flywheel speed
+	 */
+	private void setEjectorSpeed(double speed1, double speed2) {
+		eject1.setSpeed(speed1);
+		eject2.setSpeed(speed1);
+		eject3.setSpeed(-speed2);
+		eject4.setSpeed(-speed2);
+	}
+	
+	/**
+	 * Called when 'kicking' the cube into the flywheels
+	 */
 	public void kick() { kicker.setSpeed(KICKER_SPEED); }
 	
+	/**
+	 * Called when stopping the kicker
+	 */
 	public void kickerStop() { kicker.setSpeed(0); }
-
+	
+	/**
+	 * Called when raising the ejector for delivery to scale
+	 */
 	public void angleUp() {
 		if (!atIntakePos()) {
 			elev1.setSpeed(ELEVATION_SPEED);
@@ -125,6 +125,9 @@ public class Ejector extends Subsystem {
 		}
 	}
 	
+	/**
+	 * Called when lowering the ejector for cube intake
+	 */
 	public void angleDown() {
 		if (!atScalePos()) {
 			elev1.setSpeed(-ELEVATION_SPEED);
@@ -132,13 +135,24 @@ public class Ejector extends Subsystem {
 		}
 	}
 	
+	/**
+	 * Called when ejector is in appropriate position
+	 */
 	public void stopRotation() {
 		elev1.setSpeed(0);
 		elev2.setSpeed(0);
 	}
 	
+	/**
+	 * Called when checking ejector angle
+	 * @return true if at scale angle, false otherwise
+	 */
 	public boolean atScalePos() { return !scaleLimitSwitch.get(); }
 	
+	/**
+	 * Called when checking ejector angle
+	 * @return true if at intake angle, false otherwise
+	 */
 	public boolean atIntakePos() { return !intakeLimitSwitch.get(); }
 	
 }

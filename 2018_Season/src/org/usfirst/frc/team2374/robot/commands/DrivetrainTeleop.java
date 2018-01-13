@@ -3,7 +3,12 @@ package org.usfirst.frc.team2374.robot.commands;
 import org.usfirst.frc.team2374.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-// TODO(CR): CoffeeDoc
+/**
+ * Default drivetrain command, controls drivetrain allowing for tank 
+ * drive (independent control of left and right sides of drivetrain)
+ * 
+ * @author robotics
+ */
 public class DrivetrainTeleop extends Command {
 	
 	public DrivetrainTeleop() { requires(Robot.drive); }

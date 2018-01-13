@@ -16,16 +16,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 // TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
 public class Drivetrain extends Subsystem {
-	// TODO(CR): Capitalization and punctuation
 	// no use of RobotDrive for now (there was a potential bug involved in
 	// casting TalonSRX to SpeedController so I copied the relevant methods
 	// if the drivetrain has issues consider going back to using RobotDrive
 	
 	// keep in mind TalonSRX has capability to limit max amperage (look up
 	// CTRE Phoenix documentation)
-	// TODO(CR): Avoid unnecessary abbreviations - front/back isn't much longer and improves
-	//           readability. Embrace the Java verbosity.
-	private TalonSRX masterLeft, masterRight, fLeft, fRight, bLeft, bRight;
+	private TalonSRX middleLeft, middleRight, frontLeft, frontRight, backLeft, backRight;
 	// if these don't work look up CTRE magnetic encoders (the ones that go on a talon because fuck everything)
 	private Encoder leftEncoder, rightEncoder;
 	private TwoEncoderPIDSource driveIn;
@@ -39,28 +36,24 @@ public class Drivetrain extends Subsystem {
 			
 	
 	public Drivetrain() {
-		// TODO(CR): front/middle/back or front/center/back makes more sense to me than
-		//           front/master/back
-		// center motors (masters) are mCIMs, front and back are CIMs
-		masterLeft = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_LEFT);
-		masterRight = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_RIGHT);
-		fLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
-		fRight = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_RIGHT);
-		bLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
-		bRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
+		// center motors are mCIMs, front and back are CIMs
+		middleLeft = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_LEFT);
+		middleRight = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_RIGHT);
+		frontLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
+		frontRight = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_RIGHT);
+		backLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
+		backRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
 		
 		// set front and back motors to follow center motors
-		fLeft.follow(masterLeft);
-		bLeft.follow(masterLeft);
-		fRight.follow(masterRight);
-		bRight.follow(masterRight);
+		frontLeft.follow(middleLeft);
+		backLeft.follow(middleLeft);
+		frontRight.follow(middleRight);
+		backRight.follow(middleRight);
 		
 		// you just always need to do this
-		masterLeft.setInverted(true);
-		masterRight.setInverted(true);
+		middleLeft.setInverted(true);
+		middleRight.setInverted(true);
 		
-		// TODO(CR): Adhere to a max line length. 80 is common for most languages, but Java is
-		//           generally either 100 or 120 characters.
 		leftEncoder = new Encoder(RobotMap.ENCODER_DRIVE_LA, RobotMap.ENCODER_DRIVE_LB, false, CounterBase.EncodingType.k4X);
 		rightEncoder = new Encoder(RobotMap.ENCODER_DRIVE_RA, RobotMap.ENCODER_DRIVE_RB, true, CounterBase.EncodingType.k4X);
 		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -75,51 +68,34 @@ public class Drivetrain extends Subsystem {
 	@Override
 	protected void initDefaultCommand() { setDefaultCommand(new DrivetrainTeleop()); }
 
-	// TODO(CR): Finally some JavaDoc comments! This was copied from 2017, wasn't it? Param/return
-	//           value lines generally come after the description.
 	/**
-	 * 
-	 * @param leftValue desired speed for left drive
-	 * @param rightValue desired speed for right drive
-	 * 
 	 * tankDrive sets speed for left and right side of
 	 * drivetrain independently (like a tank), squares
 	 * inputs (while preserving sign) to improve control
 	 * while preserving top speed
+	 * 
+	 * @param leftValue desired speed for left drive
+	 * @param rightValue desired speed for right drive
 	 */
 	public void tankDrive(double leftValue, double rightValue) {
 		// make sure input is capped at 1.0
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
-		// TODO(CR): Each set of 4 lines can be simplified to:
-		// leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
 		// square both inputs while preserving sign
-		if (leftValue >= 0.0)
-	        leftValue = Math.pow(leftValue, 2);
-	    else
-	        leftValue = -Math.pow(leftValue, 2);
-	    if (rightValue >= 0.0)
-	        rightValue = Math.pow(rightValue, 2);
-	    else
-	        rightValue = -Math.pow(rightValue, 2);
+		leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
+	    rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
-	    masterLeft.set(null, leftValue);
-	    masterRight.set(null, rightValue);
+	    middleLeft.set(null, leftValue);
+	    middleRight.set(null, rightValue);
 	}
 	
-	// TODO(CR): Nit: Missing param and return in JavaDoc
 	/**
 	 * Limit motor values to the -1.0 to +1.0 range.
+	 * 
+	 * @param num the value to limit
+	 * @return the value capped -1.0 or 1.0
 	 */
-	private double limit(double num) {
-		// TODO(CR): This can be simplified to one line:
-		// return Math.max(Math.min(num, 1.0), -1.0);
-		if (num > 1.0)
-			return 1.0;
-	    if (num < -1.0)
-	    	return -1.0;
-	    return num;
-	}
+	private double limit(double num) { return Math.max(Math.min(num, 1.0), -1.0); }
 
 }
 

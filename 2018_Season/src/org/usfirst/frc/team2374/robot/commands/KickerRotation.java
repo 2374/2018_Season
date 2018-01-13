@@ -4,9 +4,14 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-// TODO(CR): JavaDoc
+/**
+ * Causes kicker to rotate for a couple seconds, pushing the
+ * cube into the flywheels
+ * 
+ * @author robotics
+ */
 public class KickerRotation extends TimedCommand {
-
+	
 	public KickerRotation(double timeout) {
 		super(timeout);
 		requires(Robot.eject);
