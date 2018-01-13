@@ -12,12 +12,12 @@ public class DrivetrainTeleop extends Command {
 	
 	@Override
 	protected void execute() {
-		// This is a functionality Alec likes, the left and right triggers can make the robot drive
-		// straight forward or straight back
 		double leftTrigger = Robot.oi.getLeftTrigger();
 		double rightTrigger = Robot.oi.getRightTrigger();
 		double leftJoy = Robot.oi.getDriverLeftY();
 		double rightJoy = Robot.oi.getDriverRightY();
+		// This is a functionality Alec likes, the left and right triggers can make the robot drive
+		// straight forward or straight back
 		if (rightTrigger != 0) 
 			Robot.drive.tankDrive(rightTrigger, rightTrigger);
 		else if (leftTrigger != 0)

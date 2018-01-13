@@ -17,8 +17,10 @@ public class ClimberTeleop extends Command {
 			Robot.climb.fan();
 		else
 			Robot.climb.fanOff();
-		if (Robot.oi.getButtonStart())
+		if (Robot.oi.getButtonStart()) {
 			Robot.climb.climbUp();
+			Robot.climb.fanOff();
+		}
 		else
 			Robot.climb.climbStop();
 	}

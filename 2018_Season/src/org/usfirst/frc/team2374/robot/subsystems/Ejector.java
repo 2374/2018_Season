@@ -57,8 +57,7 @@ public class Ejector extends Subsystem {
 			eject2.setSpeed(-SCALE_RAMP_SPEED);
 			eject3.setSpeed(SCALE_RAMP_SPEED);
 			eject4.setSpeed(SCALE_RAMP_SPEED);
-			// this is probably not needed but I really don't want an
-			// infinite loop
+			// this shouldn't be necessary but I really don't want an infinite loop
 			if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME)
 				break;
 		}
