@@ -4,6 +4,7 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+// TODO(CR): JavaDoc
 public class KickerRotation extends TimedCommand {
 
 	public KickerRotation(double timeout) {

@@ -5,6 +5,7 @@ import org.usfirst.frc.team2374.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+// TODO(CR): CoffeePaper
 public class EjectorDown extends TimedCommand {
 	
 	public EjectorDown(double timeout) { 

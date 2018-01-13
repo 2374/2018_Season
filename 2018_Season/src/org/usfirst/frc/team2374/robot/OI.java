@@ -18,7 +18,8 @@ public class OI {
 	private JoystickButton rightBumper;
 	private JoystickButton buttonY;
 	
-	// this value requires extensive testing, it may not be used at all
+	// TODO(CR): Nit: Capitalization
+	// This value requires extensive testing, it may not be used at all
 	private static final double DEAD_ZONE_VAL = 0.05;
 
 	public OI() {
@@ -56,6 +57,15 @@ public class OI {
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
 	
+	// TODO(CR): This comment is a bit confusingly worded. Also, use JavaDoc comments for
+	//           method/class comments. Example:
+	/**
+	 * Snaps the provided axisValue to 0, 1, or -1 if it is within deadValue of one of those
+	 * values.
+	 * @param axisValue The value to apply the deadzone to
+	 * @param deadValue The size of the deadzone
+	 * @return axisValue with the deadzone applied
+	 */
 	// if input is close to 0, +/-1 set it to 0, +/-1, this is still experimental
 	public static double deadZone(double axisValue, double deadValue) {
 		if (Math.abs(axisValue) < deadValue)

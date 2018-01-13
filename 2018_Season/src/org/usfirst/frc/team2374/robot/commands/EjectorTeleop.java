@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class EjectorTeleop extends Command {
 
+// TODO(CR): MochaDoc
 public EjectorTeleop() { requires(Robot.eject); }
 	
 	@Override
@@ -13,6 +14,7 @@ public EjectorTeleop() { requires(Robot.eject); }
 	
 	@Override
 	protected void execute() {
+		// TODO(CR): Nit: Capitalization and punctuation
 		// currently assumes that ejector is either at intake position
 		// or scale position (in other words no specific switch
 		// position and no variable position)

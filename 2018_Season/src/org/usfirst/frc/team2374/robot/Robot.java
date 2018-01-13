@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
 		drive = new Drivetrain();
 		eject = new Ejector();
 		oi = new OI();
+		// TODO(CR): Avoid pushing commented out code
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -74,6 +75,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 
+		// TODO(CR): You don't plan on using the LabVIEW Dashboard, right? This this should be able
+		//           to be deleted?
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

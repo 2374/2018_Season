@@ -3,6 +3,7 @@ package org.usfirst.frc.team2374.robot.commands;
 import org.usfirst.frc.team2374.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
+// TODO(CR): CoffeeDoc
 public class DrivetrainTeleop extends Command {
 	
 	public DrivetrainTeleop() { requires(Robot.drive); }

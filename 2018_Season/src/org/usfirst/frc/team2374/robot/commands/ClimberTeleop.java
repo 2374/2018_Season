@@ -4,6 +4,7 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+// TODO(CR): Add JavaDoc class comment
 public class ClimberTeleop extends Command {
 	
 	public ClimberTeleop() { requires(Robot.climb); }

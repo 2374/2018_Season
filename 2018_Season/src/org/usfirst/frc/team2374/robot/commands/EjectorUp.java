@@ -4,6 +4,7 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+// TODO(CR): JavaPaper
 public class EjectorUp extends TimedCommand {
 	
 	public EjectorUp(double timeout) { 
