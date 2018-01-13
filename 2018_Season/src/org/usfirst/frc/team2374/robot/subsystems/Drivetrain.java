@@ -33,7 +33,7 @@ public class Drivetrain extends Subsystem {
 	private TwoEncoderPIDSource driveIn;
 	private PIDController drivePID;
 	private PIDController gyroPID;
-	
+	 
 	private static final double MAX_AUTO_SPEED = 1;
 	// these all need to be calibrated
 	private static final double DRIVE_P = 0.03;
