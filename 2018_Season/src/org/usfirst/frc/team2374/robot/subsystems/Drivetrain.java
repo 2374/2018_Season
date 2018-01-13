@@ -6,12 +6,16 @@ import org.usfirst.frc.team2374.util.TwoEncoderPIDSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 // TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
@@ -23,16 +27,21 @@ public class Drivetrain extends Subsystem {
 	// keep in mind TalonSRX has capability to limit max amperage (look up
 	// CTRE Phoenix documentation)
 	private TalonSRX middleLeft, middleRight, frontLeft, frontRight, backLeft, backRight;
+	private AHRS navX;
 	// if these don't work look up CTRE magnetic encoders (the ones that go on a talon because fuck everything)
 	private Encoder leftEncoder, rightEncoder;
 	private TwoEncoderPIDSource driveIn;
 	private PIDController drivePID;
+	private PIDController gyroPID;
 	
 	private static final double MAX_AUTO_SPEED = 1;
 	// these all need to be calibrated
 	private static final double DRIVE_P = 0.03;
 	private static final double DRIVE_I = 0.000;
 	private static final double DRIVE_D = 0;
+	private static final double GYRO_P = 0.008;
+	private static final double GYRO_I = 0.00045;
+	private static final double GYRO_D = 0;
 			
 	
 	public Drivetrain() {
@@ -59,10 +68,26 @@ public class Drivetrain extends Subsystem {
 		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 		
+		navX = new AHRS(SPI.Port.kMXP);
+		navX.setPIDSourceType(PIDSourceType.kDisplacement);
+		
 		driveIn = new TwoEncoderPIDSource(leftEncoder, rightEncoder);
-		drivePID = new PIDController(DRIVE_P, DRIVE_I, DRIVE_D, driveIn, new PIDOutput() { public void pidWrite(double arg0) { } });
+		drivePID = new PIDController(DRIVE_P, DRIVE_I, DRIVE_D, driveIn, new PIDOutput() {
+			@Override
+			public void pidWrite(double arg0) {
+			}
+		});
 		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
 		drivePID.setContinuous(false);
+		
+		gyroPID = new PIDController(GYRO_P, GYRO_I, GYRO_D, navX, new PIDOutput() {
+			@Override
+			public void pidWrite(double arg0) {
+			}
+		});
+		gyroPID.setInputRange(-180.0, 180.0);
+		gyroPID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+		gyroPID.setContinuous(true);
 	}
 
 	@Override
@@ -87,6 +112,69 @@ public class Drivetrain extends Subsystem {
 	    // set left and right drive
 	    middleLeft.set(null, leftValue);
 	    middleRight.set(null, rightValue);
+	}
+	
+	// this isn't too useful now but it will be relevant if we need
+	// multiple PID constants for different distances
+	public void setPID() {
+		drivePID.setPID(DRIVE_P, DRIVE_I, DRIVE_D);
+		gyroPID.setPID(GYRO_P, GYRO_I, GYRO_D);
+	}
+	
+	public void setDrivePIDSetPoint(double inches) { drivePID.setSetpoint(inches); }
+	
+	public void setGyroPIDSetPoint(double degrees) { gyroPID.setSetpoint(degrees); }
+	
+	public double getDrivePIDOutput() { return drivePID.get(); }
+	
+	public double getGyroPIDOutput() { return gyroPID.get(); }
+	
+	public double getDrivePIDError() { return drivePID.getError(); }
+	
+	public double getGyroPIDError() { return gyroPID.getError(); }
+	
+	public double getAngle() { return navX.getYaw(); }
+	
+	public void enableDrivePID(boolean enable) {
+		if (enable)
+			drivePID.enable();
+		else
+			drivePID.reset();
+	}
+
+	public void enableGyroPID(boolean enable) {
+		if (enable)
+			gyroPID.enable();
+		else
+			gyroPID.reset();
+	}
+
+	public void resetEncoders() {
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+
+	public void resetGyro() { navX.reset(); }
+
+	public void resetAllSenors() {
+		resetEncoders();
+		navX.reset();
+	}
+	
+	public double getLeftDistanceInches() {
+		return encoderCntsToInches(leftEncoder.getDistance(), TwoEncoderPIDSource.EC_PER_REV_LEFT);
+	}
+
+	public double getRightDistanceInches() {
+		return encoderCntsToInches(rightEncoder.getDistance(), TwoEncoderPIDSource.EC_PER_REV_RIGHT);
+	}
+
+	public static double encoderCntsToInches(double counts, double countsPerRev) {
+		return (counts / countsPerRev) * (TwoEncoderPIDSource.WHEEL_DIAMETER_INCHES * Math.PI);
+	}
+
+	public static double inchesToEncoderCnts(double inches, double countsPerRev) {
+		return inches * countsPerRev / (TwoEncoderPIDSource.WHEEL_DIAMETER_INCHES * Math.PI);
 	}
 	
 	/**
