@@ -32,14 +32,13 @@ public class RobotMap {
 	// PWM
 	public static final int TALON_EJECTOR_1 = 0;
 	public static final int TALON_EJECTOR_2 = 1;
-	public static final int TALON_EJECTOR_3 = 2;
-	public static final int TALON_EJECTOR_4 = 3;
-	public static final int TALON_KICKER = 4;
-	public static final int TALON_ELEVATION_1 = 5;
-	public static final int TALON_ELEVATION_2 = 6;
-	public static final int TALON_CLIMBER_1 = 7;
-	public static final int TALON_CLIMBER_2 = 8;
-	public static final int TALON_FAN = 9;
+	public static final int TALON_KICKER_1 = 2;
+	public static final int TALON_KICKER_2 = 3;
+	public static final int TALON_ELEVATION_1 = 4;
+	public static final int TALON_ELEVATION_2 = 5;
+	public static final int TALON_CLIMBER_1 = 6;
+	public static final int TALON_CLIMBER_2 = 7;
+	public static final int TALON_FAN = 8;
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 0;
 	public static final int INTAKE_LIMIT_SWITCH = 1;

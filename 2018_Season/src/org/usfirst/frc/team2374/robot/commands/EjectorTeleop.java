@@ -25,7 +25,7 @@ public class EjectorTeleop extends Command {
 		// position and no variable position)
 		
 		// currently right and left bumper cause shooter to raise
-		// or lower and button y causes kicker to trigger for a couple seconds
+		// or lower
 		// these functionalities are currently in the OI and need to
 		// be tested, possible fixes include creating command instances
 		// in this command instead of OI, recreating their functionalities 
@@ -48,7 +48,6 @@ public class EjectorTeleop extends Command {
 	@Override
 	protected void end() { 
 		Robot.eject.flyWheelsStop();
-		Robot.eject.kickerStop();
 		Robot.eject.stopRotation();
 	}
 	

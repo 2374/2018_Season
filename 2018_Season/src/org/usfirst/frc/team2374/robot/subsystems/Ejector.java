@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Ejector extends Subsystem {
-	private Talon eject1, eject2, eject3, eject4, kicker, elev1, elev2;
+	private Talon eject1, eject2, kicker1, kicker2, elev1, elev2;
 	// there is a very good chance that neither of the limit switches work
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
@@ -28,19 +28,18 @@ public class Ejector extends Subsystem {
 	private static final double SCALE_RAMP_SPEED = 0.7;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.25;
-	private static final double INTAKE_SPEED = 0.1;
-	private static final double KICKER_SPEED = 0.5;
+	private static final double INTAKE_SPEED = 0.3;
+	private static final double KICKER_SPEED = 0.1;
+	private static final double KICKER_RAMP_TIME_S = 1;
 	private static final double ELEVATION_SPEED = 0.3;
 
 	public static final double ELEVATE_TIMEOUT_S = 5.0;
-	public static final double KICKER_TIMEOUT_S = 2.5;
 	
 	public Ejector() {
 		eject1 = new Talon(RobotMap.TALON_EJECTOR_1);
 		eject2 = new Talon(RobotMap.TALON_EJECTOR_2);
-		eject3 = new Talon(RobotMap.TALON_EJECTOR_3);
-		eject4 = new Talon(RobotMap.TALON_EJECTOR_4);
-		kicker = new Talon(RobotMap.TALON_KICKER);
+		kicker1 = new Talon(RobotMap.TALON_KICKER_1);
+		kicker2 = new Talon(RobotMap.TALON_KICKER_2);
 		elev1 = new Talon(RobotMap.TALON_ELEVATION_1);
 		elev2 = new Talon(RobotMap.TALON_ELEVATION_2);
 		scaleLimitSwitch = new DigitalInput(RobotMap.SCALE_LIMIT_SWITCH);
@@ -64,6 +63,11 @@ public class Ejector extends Subsystem {
 			setEjectorSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
 		else
 			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
+		if (Timer.getFPGATimestamp() - startTime > KICKER_RAMP_TIME_S)
+			setKickerSpeed(SCALE_SPEED_1);
+		else
+			setKickerSpeed(KICKER_SPEED);
+			
 	}
 	
 	/**
@@ -71,6 +75,7 @@ public class Ejector extends Subsystem {
 	 */
 	public void switchForward() {
 		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
+		setKickerSpeed(SWITCH_SPEED);
 		startTime = 0;
 	}
 	
@@ -79,6 +84,7 @@ public class Ejector extends Subsystem {
 	 */
 	public void intakeIn() {
 		setEjectorSpeed(-INTAKE_SPEED, -INTAKE_SPEED);
+		setKickerSpeed(-INTAKE_SPEED);
 		startTime = 0;
 	}
 	
@@ -87,6 +93,7 @@ public class Ejector extends Subsystem {
 	 */
 	public void flyWheelsStop() {
 		setEjectorSpeed(0, 0);
+		setKickerSpeed(0);
 		startTime = 0;
 	}
 	
@@ -100,20 +107,13 @@ public class Ejector extends Subsystem {
 	 */
 	private void setEjectorSpeed(double speed1, double speed2) {
 		eject1.setSpeed(speed1);
-		eject2.setSpeed(speed1);
-		eject3.setSpeed(-speed2);
-		eject4.setSpeed(-speed2);
+		eject2.setSpeed(-speed1);
 	}
 	
-	/**
-	 * Called when 'kicking' the cube into the flywheels
-	 */
-	public void kick() { kicker.setSpeed(KICKER_SPEED); }
-	
-	/**
-	 * Called when stopping the kicker
-	 */
-	public void kickerStop() { kicker.setSpeed(0); }
+	private void setKickerSpeed(double speed) {
+		kicker1.setSpeed(speed);
+		kicker2.setSpeed(-speed);
+	}
 	
 	/**
 	 * Called when raising the ejector for delivery to scale
