@@ -119,7 +119,7 @@ public class Ejector extends Subsystem {
 	 * Called when raising the ejector for delivery to scale
 	 */
 	public void angleUp() {
-		if (!atIntakePos()) {
+		if (!atScalePos()) {
 			elev1.setSpeed(ELEVATION_SPEED);
 			elev2.setSpeed(-ELEVATION_SPEED);
 		}
@@ -129,7 +129,7 @@ public class Ejector extends Subsystem {
 	 * Called when lowering the ejector for cube intake
 	 */
 	public void angleDown() {
-		if (!atScalePos()) {
+		if (!atIntakePos()) {
 			elev1.setSpeed(-ELEVATION_SPEED);
 			elev2.setSpeed(ELEVATION_SPEED);
 		}
