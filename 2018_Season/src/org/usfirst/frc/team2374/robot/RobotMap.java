@@ -46,4 +46,6 @@ public class RobotMap {
 	public static final int ENCODER_DRIVE_LB = 3;
 	public static final int ENCODER_DRIVE_RA = 4;
 	public static final int ENCODER_DRIVE_RB = 5;
+	// Analog
+	public static final int ULTRASONIC = 0;
 }

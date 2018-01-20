@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2374.robot.subsystems.Ejector;
+import org.usfirst.frc.team2374.robot.subsystems.Ultrasonic;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drive;
 	public static Ejector eject;
 	public static OI oi;
+	public static Ultrasonic ultra;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -39,6 +41,7 @@ public class Robot extends IterativeRobot {
 		drive = new Drivetrain();
 		eject = new Ejector();
 		oi = new OI();
+		ultra = new Ultrasonic();
 		// TODO(CR): Avoid pushing commented out code
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
