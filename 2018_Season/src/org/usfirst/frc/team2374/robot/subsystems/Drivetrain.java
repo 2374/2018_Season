@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 
 // TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
 public class Drivetrain extends Subsystem {
@@ -112,6 +115,45 @@ public class Drivetrain extends Subsystem {
 	    // set left and right drive
 	    middleLeft.set(null, leftValue);
 	    middleRight.set(null, rightValue);
+	}
+	
+	/**
+	   * Arcade drive implements single stick driving. This function lets you directly provide
+	   * joystick values from any source.
+	   *
+	   * @param moveValue The value to use for forwards/backwards
+	   * @param rotateValue The value to use for the rotate right/left
+	   * @param squaredInputs If set, decreases the sensitivity at low speeds
+	   */
+	public void arcadeDrive(double moveValue, double rotateValue) {
+	    double leftMotorSpeed;
+	    double rightMotorSpeed;
+	    // cap values at -1.0 to 1.0
+	    moveValue = limit(moveValue);
+	    rotateValue = limit(rotateValue);
+	    // square inputs
+		moveValue = Math.pow(moveValue, 0) * Math.pow(moveValue, 2);
+	    rotateValue = Math.pow(rotateValue, 0) * Math.pow(rotateValue, 2);
+	    if (moveValue > 0.0)
+	    	if (rotateValue > 0.0) {
+	    		leftMotorSpeed = moveValue - rotateValue;
+	    		rightMotorSpeed = Math.max(moveValue, rotateValue);
+	    	} 
+	    	else {
+	    		leftMotorSpeed = Math.max(moveValue, -rotateValue);
+	    		rightMotorSpeed = moveValue + rotateValue;
+	    	}
+	    else
+	    	if (rotateValue > 0.0) {
+	    		leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+	    		rightMotorSpeed = moveValue + rotateValue;
+	    	} 
+	    	else {
+	    		leftMotorSpeed = moveValue - rotateValue;
+	    		rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+	    	}
+	    middleLeft.set(null, leftMotorSpeed);
+	    middleRight.set(null, rightMotorSpeed);
 	}
 	
 	// this isn't too useful now but it will be relevant if we need
