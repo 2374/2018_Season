@@ -45,7 +45,8 @@ public class Drivetrain extends Subsystem {
 	private static final double GYRO_P = 0.008;
 	private static final double GYRO_I = 0.00045;
 	private static final double GYRO_D = 0;
-			
+	
+	public static final double DRIVE_TOLERANCE_IN = 0;
 	
 	public Drivetrain() {
 		// center motors are mCIMs, front and back are CIMs
