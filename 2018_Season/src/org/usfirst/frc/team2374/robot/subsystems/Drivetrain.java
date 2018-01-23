@@ -45,6 +45,8 @@ public class Drivetrain extends Subsystem {
 	private static final double GYRO_P = 0.008;
 	private static final double GYRO_I = 0.00045;
 	private static final double GYRO_D = 0;
+	
+	public static final double GYRO_TOLERANCE_DEG = 0;
 			
 	
 	public Drivetrain() {
@@ -200,7 +202,7 @@ public class Drivetrain extends Subsystem {
 
 	public void resetAllSenors() {
 		resetEncoders();
-		navX.reset();
+		resetGyro();
 	}
 	
 	public double getLeftDistanceInches() {
