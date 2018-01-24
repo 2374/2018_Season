@@ -27,9 +27,9 @@ public class Ejector extends Subsystem {
 	// should be, and how long it should ramp up for
 	private static final double SCALE_RAMP_SPEED = 0.7;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
-	private static final double SWITCH_SPEED = 0.25;
+	private static final double SWITCH_SPEED = 0.75;
 	private static final double INTAKE_SPEED = 0.3;
-	private static final double KICKER_SPEED = 0.1;
+	private static final double KICKER_SPEED = 0;
 	private static final double KICKER_RAMP_TIME_S = 1;
 	private static final double ELEVATION_SPEED = 0.3;
 
