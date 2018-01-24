@@ -1,6 +1,11 @@
 
 package org.usfirst.frc.team2374.robot;
 
+import org.usfirst.frc.team2374.robot.subsystems.Climber;
+import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team2374.robot.subsystems.Ejector;
+import org.usfirst.frc.team2374.robot.subsystems.Ultrasonic;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,11 +13,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2374.robot.subsystems.Climber;
-import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team2374.robot.subsystems.Ejector;
-import org.usfirst.frc.team2374.robot.subsystems.Ultrasonic;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,11 +40,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		climb = new Climber();
+		 climb = new Climber();
 		drive = new Drivetrain();
-		eject = new Ejector();
+		 eject = new Ejector();
 		oi = new OI();
-		ultra = new Ultrasonic();
+		 ultra = new Ultrasonic();
 		// TODO(CR): Avoid pushing commented out code
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());

@@ -9,17 +9,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.HAL;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 
 // TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
 public class Drivetrain extends Subsystem {
@@ -83,7 +78,7 @@ public class Drivetrain extends Subsystem {
 			}
 		});
 		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-		drivePID.setContinuous(false);
+		//drivePID.setContinuous(false);
 		
 		gyroPID = new PIDController(GYRO_P, GYRO_I, GYRO_D, navX, new PIDOutput() {
 			@Override
@@ -115,8 +110,8 @@ public class Drivetrain extends Subsystem {
 		leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
 	    rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
-	    middleLeft.set(null, leftValue);
-	    middleRight.set(null, rightValue);
+	    middleLeft.set(ControlMode.Current, leftValue);
+	    middleRight.set(ControlMode.Current, rightValue);
 	}
 	
 	/**
