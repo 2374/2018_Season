@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2374.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,6 +28,8 @@ public class Robot extends IterativeRobot {
 	public static Ejector eject;
 	public static OI oi;
 	public static Ultrasonic ultra;
+	
+	public String autoGameData;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -76,6 +79,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		autoGameData = DriverStation.getInstance().getGameSpecificMessage();
 		autonomousCommand = chooser.getSelected();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
@@ -98,6 +102,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		autoGameData = null;
 	}
 
 	/**
