@@ -110,8 +110,8 @@ public class Drivetrain extends Subsystem {
 		leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
 	    rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
-	    middleLeft.set(ControlMode.Current, leftValue);
-	    middleRight.set(ControlMode.Current, rightValue);
+	    middleLeft.set(ControlMode.PercentOutput, leftValue);
+	    middleRight.set(ControlMode.PercentOutput, rightValue);
 	}
 	
 	/**
@@ -149,8 +149,8 @@ public class Drivetrain extends Subsystem {
 	    		leftMotorSpeed = moveValue - rotateValue;
 	    		rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 	    	}
-	    middleLeft.set(null, leftMotorSpeed);
-	    middleRight.set(null, rightMotorSpeed);
+	    middleLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
+	    middleRight.set(ControlMode.PercentOutput, rightMotorSpeed);
 	}
 	
 	// this isn't too useful now but it will be relevant if we need
