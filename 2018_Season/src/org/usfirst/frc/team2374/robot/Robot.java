@@ -103,6 +103,8 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		autoGameData = null;
+		SmartDashboard.putNumber("left encoder", drive.getLeftDistanceInches());
+		SmartDashboard.putNumber("right encoder", drive.getRightDistanceInches());
 	}
 
 	/**

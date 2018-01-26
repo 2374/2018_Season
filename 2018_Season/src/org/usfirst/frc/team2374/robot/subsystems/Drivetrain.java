@@ -59,9 +59,9 @@ public class Drivetrain extends Subsystem {
 		frontRight.follow(middleRight);
 		backRight.follow(middleRight);
 		
-		// you just always need to do this
-		middleLeft.setInverted(true);
+		frontRight.setInverted(true);
 		middleRight.setInverted(true);
+		backRight.setInverted(true);
 		
 		leftEncoder = new Encoder(RobotMap.ENCODER_DRIVE_LA, RobotMap.ENCODER_DRIVE_LB, false, CounterBase.EncodingType.k4X);
 		rightEncoder = new Encoder(RobotMap.ENCODER_DRIVE_RA, RobotMap.ENCODER_DRIVE_RB, true, CounterBase.EncodingType.k4X);
@@ -102,13 +102,13 @@ public class Drivetrain extends Subsystem {
 	 * @param leftValue desired speed for left drive
 	 * @param rightValue desired speed for right drive
 	 */
-	public void tankDrive(double leftValue, double rightValue) {
+	public void tankDrive(double rightValue, double leftValue) {
 		// make sure input is capped at 1.0
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
 		// square both inputs while preserving sign
-		leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
-	    rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
+		//leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
+	    //rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
 	    middleLeft.set(ControlMode.PercentOutput, leftValue);
 	    middleRight.set(ControlMode.PercentOutput, rightValue);
