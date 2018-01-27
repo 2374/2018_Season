@@ -17,19 +17,11 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-// Important: the left and right motors are very weird, many of the left
-// motors follow the right motors and vice versa. This doesn't make sense
-// when you read it, it just works (we tested it a lot).
 
-// The PID and sensor stuff probably doesn't
 public class Drivetrain extends Subsystem {
-	// no use of RobotDrive for now (there was a potential bug involved in
-	// casting TalonSRX to SpeedController so I copied the relevant methods
-	// if the drivetrain has issues consider going back to using RobotDrive
-	
 	// keep in mind TalonSRX has capability to limit max amperage (look up
 	// CTRE Phoenix documentation)
-	private TalonSRX middleRight, middleLeft, frontLeft, frontRight, backLeft, backRight;
+	private TalonSRX middleRight, middleLeft, frontRight, frontLeft, backRight, backLeft;
 	private AHRS navX;
 	private TwoEncoderPIDSource driveIn;
 	private PIDController drivePID;
@@ -49,22 +41,22 @@ public class Drivetrain extends Subsystem {
 	  
 	public Drivetrain() {
 		// center motors are mCIMs, front and back are CIMs
-		middleLeft = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_LEFT);
-		middleRight = new TalonSRX(RobotMap.TALON_DRIVE_MASTER_RIGHT);
-		frontLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
+		middleRight = new TalonSRX(RobotMap.TALON_DRIVE_MIDDLE_RIGHT);
+		middleLeft = new TalonSRX(RobotMap.TALON_DRIVE_MIDDLE_LEFT);
 		frontRight = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_RIGHT);
-		backLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
+		frontLeft = new TalonSRX(RobotMap.TALON_DRIVE_FRONT_LEFT);
 		backRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
+		backLeft = new TalonSRX(RobotMap.TALON_DRIVE_BACK_LEFT);
 		
 		// set front and back motors to follow center motors
-		frontLeft.follow(middleRight);
-		backLeft.follow(middleRight);
-		frontRight.follow(middleLeft);
-		backRight.follow(middleLeft);
+		frontRight.follow(middleRight);
+		backRight.follow(middleRight);
+		frontLeft.follow(middleLeft);
+		backLeft.follow(middleLeft);
 
 		middleLeft.setInverted(true);
-		frontRight.setInverted(true);
-		backRight.setInverted(true);
+		frontLeft.setInverted(true);
+		backLeft.setInverted(true);
 		
 		middleRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		middleLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
@@ -79,7 +71,6 @@ public class Drivetrain extends Subsystem {
 			}
 		});
 		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-		//drivePID.setContinuous(false);
 		
 		gyroPID = new PIDController(GYRO_P, GYRO_I, GYRO_D, navX, new PIDOutput() {
 			@Override
@@ -108,8 +99,8 @@ public class Drivetrain extends Subsystem {
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
 		// square both inputs while preserving sign
-		//leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
-	    //rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
+		// leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
+	    // rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
 	    middleRight.set(ControlMode.PercentOutput, rightValue);
 	    middleLeft.set(ControlMode.PercentOutput, leftValue);
