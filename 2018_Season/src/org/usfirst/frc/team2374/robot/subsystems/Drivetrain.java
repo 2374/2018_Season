@@ -5,6 +5,7 @@ import org.usfirst.frc.team2374.robot.commands.DrivetrainTeleop;
 import org.usfirst.frc.team2374.util.TwoEncoderPIDSource;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -16,7 +17,11 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-// TODO: everything related to PID, encoders, sensors, etc. (see 2017 robot drivetrain)
+// Important: the left and right motors are very weird, many of the left
+// motors follow the right motors and vice versa. This doesn't make sense
+// when you read it, it just works (we tested it a lot).
+
+// The PID and sensor stuff probably doesn't
 public class Drivetrain extends Subsystem {
 	// no use of RobotDrive for now (there was a potential bug involved in
 	// casting TalonSRX to SpeedController so I copied the relevant methods
@@ -24,10 +29,8 @@ public class Drivetrain extends Subsystem {
 	
 	// keep in mind TalonSRX has capability to limit max amperage (look up
 	// CTRE Phoenix documentation)
-	private TalonSRX middleLeft, middleRight, frontLeft, frontRight, backLeft, backRight;
+	private TalonSRX middleRight, middleLeft, frontLeft, frontRight, backLeft, backRight;
 	private AHRS navX;
-	// if these don't work look up CTRE magnetic encoders (the ones that go on a talon because fuck everything)
-	private Encoder leftEncoder, rightEncoder;
 	private TwoEncoderPIDSource driveIn;
 	private PIDController drivePID;
 	private PIDController gyroPID;
@@ -54,24 +57,22 @@ public class Drivetrain extends Subsystem {
 		backRight = new TalonSRX(RobotMap.TALON_DRIVE_BACK_RIGHT);
 		
 		// set front and back motors to follow center motors
-		frontLeft.follow(middleLeft);
-		backLeft.follow(middleLeft);
-		frontRight.follow(middleRight);
-		backRight.follow(middleRight);
-		
+		frontLeft.follow(middleRight);
+		backLeft.follow(middleRight);
+		frontRight.follow(middleLeft);
+		backRight.follow(middleLeft);
+
+		middleLeft.setInverted(true);
 		frontRight.setInverted(true);
-		middleRight.setInverted(true);
 		backRight.setInverted(true);
 		
-		leftEncoder = new Encoder(RobotMap.ENCODER_DRIVE_LA, RobotMap.ENCODER_DRIVE_LB, false, CounterBase.EncodingType.k4X);
-		rightEncoder = new Encoder(RobotMap.ENCODER_DRIVE_RA, RobotMap.ENCODER_DRIVE_RB, true, CounterBase.EncodingType.k4X);
-		leftEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
-		rightEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+		middleRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+		middleLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		
 		navX = new AHRS(SPI.Port.kMXP);
 		navX.setPIDSourceType(PIDSourceType.kDisplacement);
 		
-		driveIn = new TwoEncoderPIDSource(leftEncoder, rightEncoder);
+		driveIn = new TwoEncoderPIDSource(middleLeft, middleRight);
 		drivePID = new PIDController(DRIVE_P, DRIVE_I, DRIVE_D, driveIn, new PIDOutput() {
 			@Override
 			public void pidWrite(double arg0) {
@@ -102,7 +103,7 @@ public class Drivetrain extends Subsystem {
 	 * @param leftValue desired speed for left drive
 	 * @param rightValue desired speed for right drive
 	 */
-	public void tankDrive(double rightValue, double leftValue) {
+	public void tankDrive(double leftValue, double rightValue) {
 		// make sure input is capped at 1.0
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
@@ -110,8 +111,8 @@ public class Drivetrain extends Subsystem {
 		//leftValue = Math.pow(leftValue, 0) * Math.pow(leftValue, 2);
 	    //rightValue = Math.pow(rightValue, 0) * Math.pow(rightValue, 2);
 	    // set left and right drive
-	    middleLeft.set(ControlMode.PercentOutput, leftValue);
 	    middleRight.set(ControlMode.PercentOutput, rightValue);
+	    middleLeft.set(ControlMode.PercentOutput, leftValue);
 	}
 	
 	/**
@@ -149,8 +150,8 @@ public class Drivetrain extends Subsystem {
 	    		leftMotorSpeed = moveValue - rotateValue;
 	    		rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 	    	}
-	    middleLeft.set(ControlMode.PercentOutput, leftMotorSpeed);
-	    middleRight.set(ControlMode.PercentOutput, rightMotorSpeed);
+	    middleRight.set(ControlMode.PercentOutput, leftMotorSpeed);
+	    middleLeft.set(ControlMode.PercentOutput, rightMotorSpeed);
 	}
 	
 	// this isn't too useful now but it will be relevant if we need
@@ -187,10 +188,11 @@ public class Drivetrain extends Subsystem {
 		else
 			gyroPID.reset();
 	}
-
+	
+	// test this it probably doesn't work
 	public void resetEncoders() {
-		leftEncoder.reset();
-		rightEncoder.reset();
+		middleLeft.setSelectedSensorPosition(0, 0, 10);
+		middleRight.setSelectedSensorPosition(0, 0, 10);
 	}
 
 	public void resetGyro() { navX.reset(); }
@@ -201,11 +203,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public double getLeftDistanceInches() {
-		return encoderCntsToInches(leftEncoder.getDistance(), TwoEncoderPIDSource.EC_PER_REV_LEFT);
+		return encoderCntsToInches(middleLeft.getSelectedSensorPosition(0), TwoEncoderPIDSource.EC_PER_REV_LEFT);
 	}
 
 	public double getRightDistanceInches() {
-		return encoderCntsToInches(rightEncoder.getDistance(), TwoEncoderPIDSource.EC_PER_REV_RIGHT);
+		return encoderCntsToInches(middleRight.getSelectedSensorPosition(0), TwoEncoderPIDSource.EC_PER_REV_RIGHT);
 	}
 
 	public static double encoderCntsToInches(double counts, double countsPerRev) {

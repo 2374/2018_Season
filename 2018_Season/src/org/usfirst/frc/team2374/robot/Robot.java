@@ -40,11 +40,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		 climb = new Climber();
+		climb = new Climber();
 		drive = new Drivetrain();
-		 eject = new Ejector();
+		eject = new Ejector();
 		oi = new OI();
-		 ultra = new Ultrasonic();
+		ultra = new Ultrasonic();
 		// TODO(CR): Avoid pushing commented out code
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -103,8 +103,6 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		autoGameData = null;
-		SmartDashboard.putNumber("left encoder", drive.getLeftDistanceInches());
-		SmartDashboard.putNumber("right encoder", drive.getRightDistanceInches());
 	}
 
 	/**
@@ -113,6 +111,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("right encoder inches (hopefully)", Robot.drive.getRightDistanceInches());
+		SmartDashboard.putNumber("left encoder inches (hopefully)", Robot.drive.getLeftDistanceInches());
 	}
 
 	/**
