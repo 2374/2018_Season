@@ -23,7 +23,7 @@ public class Ejector extends Subsystem {
 	// these numbers are purely hypothetical, but 1.0 and 0.9-0.95
 	// are probably right
 	private static final double SCALE_SPEED_1 = 1.0;
-	private static final double SCALE_SPEED_2 = 0.95;
+	private static final double SCALE_SPEED_2 = 1.0;
 	// experimental, idea is to set ejector to an intermediate speed
 	// for a fraction of a second before going to full speed, requires
 	// testing to determine whether we should use this, what the speed
@@ -31,9 +31,9 @@ public class Ejector extends Subsystem {
 	private static final double SCALE_RAMP_SPEED = 0.7;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.75;
-	private static final double INTAKE_SPEED = 0.3;
+	private static final double INTAKE_SPEED = 0.6;
 	private static final double KICKER_SPEED = 0;
-	private static final double KICKER_RAMP_TIME_S = 1;
+	private static final double KICKER_RAMP_TIME_S = 2;
 	private static final double ELEVATION_SPEED = 0.3;
 
 	public static final double ELEVATE_TIMEOUT_S = 5.0;
