@@ -32,14 +32,21 @@ public class EjectorTeleop extends Command {
 		// in here, or creating separate subsystems for rotation and for kicker
 		
 		// you'll almost definitely have to change the buttons later
-		if (Robot.oi.getButtonA())
+		if (Robot.oi.getPOV() == 180)
 			Robot.eject.scaleForward();
-		else if (Robot.oi.getButtonB())
+		else if (Robot.oi.getPOV() == 90)
 			Robot.eject.switchForward();
-		else if (Robot.oi.getButtonX())
+		else if (Robot.oi.getPOV() == 270)
 			Robot.eject.intakeIn();
 		else
 			Robot.eject.flyWheelsStop();
+		
+		if (Robot.oi.getLeftBumper())
+			Robot.eject.angleDown();
+		else if (Robot.oi.getRightBumper())
+			Robot.eject.angleUp();
+		else
+			Robot.eject.stopRotation();
 	}
 
 	@Override

@@ -5,12 +5,15 @@ import org.usfirst.frc.team2374.robot.commands.EjectorTeleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Ejector extends Subsystem {
-	private Talon eject1, eject2, kicker1, kicker2, elev1, elev2;
+	private Victor eject1, eject2;
+	private Spark kicker1, kicker2, elev1, elev2;
 	// there is a very good chance that neither of the limit switches work
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
@@ -36,12 +39,12 @@ public class Ejector extends Subsystem {
 	public static final double ELEVATE_TIMEOUT_S = 5.0;
 	
 	public Ejector() {
-		eject1 = new Talon(RobotMap.TALON_EJECTOR_1);
-		eject2 = new Talon(RobotMap.TALON_EJECTOR_2);
-		kicker1 = new Talon(RobotMap.TALON_KICKER_1);
-		kicker2 = new Talon(RobotMap.TALON_KICKER_2);
-		elev1 = new Talon(RobotMap.TALON_ELEVATION_1);
-		elev2 = new Talon(RobotMap.TALON_ELEVATION_2);
+		eject1 = new Victor(RobotMap.VICTOR_EJECTOR_1);
+		eject2 = new Victor(RobotMap.VICTOR_EJECTOR_2);
+		kicker1 = new Spark(RobotMap.SPARK_KICKER_1);
+		kicker2 = new Spark(RobotMap.SPARK_KICKER_2);
+		elev1 = new Spark(RobotMap.SPARK_ELEVATION_1);
+		elev2 = new Spark(RobotMap.SPARK_ELEVATION_2);
 		scaleLimitSwitch = new DigitalInput(RobotMap.SCALE_LIMIT_SWITCH);
 		intakeLimitSwitch = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	}
@@ -107,7 +110,7 @@ public class Ejector extends Subsystem {
 	 */
 	private void setEjectorSpeed(double speed1, double speed2) {
 		eject1.setSpeed(speed1);
-		eject2.setSpeed(-speed1);
+		eject2.setSpeed(-speed2);
 	}
 	
 	private void setKickerSpeed(double speed) {
@@ -121,7 +124,7 @@ public class Ejector extends Subsystem {
 	public void angleUp() {
 		if (!atScalePos()) {
 			elev1.setSpeed(ELEVATION_SPEED);
-			elev2.setSpeed(-ELEVATION_SPEED);
+			elev2.setSpeed(ELEVATION_SPEED);
 		}
 	}
 	
@@ -131,7 +134,7 @@ public class Ejector extends Subsystem {
 	public void angleDown() {
 		if (!atIntakePos()) {
 			elev1.setSpeed(-ELEVATION_SPEED);
-			elev2.setSpeed(ELEVATION_SPEED);
+			elev2.setSpeed(-ELEVATION_SPEED);
 		}
 	}
 	

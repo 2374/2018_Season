@@ -25,9 +25,9 @@ public class DrivetrainTeleop extends Command {
 		// This is a functionality Alec likes, the left and right triggers can make the robot drive
 		// straight forward or straight back
 		if (rightTrigger != 0) 
-			Robot.drive.tankDrive(rightTrigger, rightTrigger);
+			Robot.drive.tankDrive(-rightTrigger, -rightTrigger);
 		else if (leftTrigger != 0)
-			Robot.drive.tankDrive(-leftTrigger, -leftTrigger);
+			Robot.drive.tankDrive(leftTrigger, leftTrigger);
 		// This is how normal people drive, the left joystick controls the left side of the
 		// drivetrain and the right joystick controls the right side of the drivetrain
 		else

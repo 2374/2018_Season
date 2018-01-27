@@ -23,8 +23,8 @@ public class OI {
 		driver = new Joystick(RobotMap.driverJoy);
 		leftBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
 		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);		
-		leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT_S));
-		rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT_S));
+		// leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT_S));
+		// rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT_S));
 	}
 
 	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL); }
@@ -50,6 +50,8 @@ public class OI {
 	public boolean getButtonBack() { return driver.getRawButton(RobotMap.rsButtonBack); }
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
+	
+	public double getPOV() { return driver.getPOV(0); }
 	
 	/**
 	 * Snaps the provided axisValue to 0, 1, or -1 if it is within deadValue of one of those
