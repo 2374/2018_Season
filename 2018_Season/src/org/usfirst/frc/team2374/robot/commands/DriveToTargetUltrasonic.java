@@ -3,7 +3,6 @@ package org.usfirst.frc.team2374.robot.commands;
 import org.usfirst.frc.team2374.robot.Robot;
 import org.usfirst.frc.team2374.robot.subsystems.Ultrasonic;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToTargetUltrasonic extends Command {

@@ -35,7 +35,7 @@ public class TurnToAngle extends Command {
 	
 	@Override
 	protected void end() {
-		Robot.drive.enableGyroPID(false);
+		// Robot.drive.enableGyroPID(false);
 		Robot.drive.arcadeDrive(0, 0);
 	}
 	

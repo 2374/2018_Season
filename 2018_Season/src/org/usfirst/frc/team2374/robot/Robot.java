@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Ultrasonic ultra;
 	
-	public String autoGameData;
+	public static String autoGameData;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
