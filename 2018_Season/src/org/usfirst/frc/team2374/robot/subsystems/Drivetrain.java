@@ -121,8 +121,8 @@ public class Drivetrain extends Subsystem {
 	    moveValue = limit(moveValue);
 	    rotateValue = limit(rotateValue);
 	    // square inputs
-		moveValue = Math.pow(moveValue, 0) * Math.pow(moveValue, 2);
-	    rotateValue = Math.pow(rotateValue, 0) * Math.pow(rotateValue, 2);
+		moveValue = Math.abs(moveValue) * moveValue;
+	    rotateValue = Math.abs(rotateValue) * rotateValue;
 	    if (moveValue > 0.0)
 	    	if (rotateValue > 0.0) {
 	    		leftMotorSpeed = moveValue - rotateValue;
