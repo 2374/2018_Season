@@ -17,7 +17,7 @@ public class OI {
 	private JoystickButton rightBumper;
 	
 	// This value requires extensive testing, it may not be used at all
-	private static final double DEAD_ZONE_VAL = 0.1;
+	private static final double DEAD_ZONE_VAL = 0.2;
 
 	public OI() {
 		driver = new Joystick(RobotMap.driverJoy);
