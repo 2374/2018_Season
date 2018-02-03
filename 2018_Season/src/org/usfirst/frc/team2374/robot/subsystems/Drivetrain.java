@@ -99,14 +99,8 @@ public class Drivetrain extends Subsystem {
 		leftValue = limit(leftValue);
 		rightValue = limit(rightValue);
 		// square both inputs while preserving sign
-		if (leftValue > 0)
-			leftValue = leftValue * leftValue;
-		else
-			leftValue = -leftValue * leftValue;
-		if (rightValue > 0)
-			rightValue = rightValue * rightValue;
-		else
-			rightValue = -rightValue * rightValue;
+		leftValue = Math.abs(leftValue) * leftValue;
+		rightValue = Math.abs(rightValue) * rightValue;
 	    // set left and right drive
 	    middleRight.set(ControlMode.PercentOutput, rightValue);
 	    middleLeft.set(ControlMode.PercentOutput, leftValue);

@@ -37,7 +37,9 @@ public class EjectorTeleop extends Command {
 		else if (Robot.oi.getPOV() == 90)
 			Robot.eject.switchForward();
 		else if (Robot.oi.getPOV() == 270)
-			Robot.eject.intakeIn();
+			Robot.eject.intakeSlow();
+		else if (Robot.oi.getPOV() == 0)
+			Robot.eject.intakeFast();
 		else
 			Robot.eject.flyWheelsStop();
 		
