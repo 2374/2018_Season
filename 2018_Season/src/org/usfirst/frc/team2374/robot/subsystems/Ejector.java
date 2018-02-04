@@ -79,7 +79,7 @@ public class Ejector extends Subsystem {
 	 */
 	public void switchForward() {
 		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
-		setKickerSpeed(SWITCH_SPEED);
+		setKickerSpeed(SCALE_SPEED_1);
 		startTime = 0;
 	}
 	

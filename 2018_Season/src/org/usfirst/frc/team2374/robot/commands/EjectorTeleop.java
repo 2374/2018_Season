@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class EjectorTeleop extends Command {
+	private boolean toggle;
 
 	public EjectorTeleop() { requires(Robot.eject); }
 	
@@ -32,16 +33,28 @@ public class EjectorTeleop extends Command {
 		// in here, or creating separate subsystems for rotation and for kicker
 		
 		// you'll almost definitely have to change the buttons later
-		if (Robot.oi.getPOV() == 180)
+		if (Robot.oi.getPOV() == 180) {
 			Robot.eject.scaleForward();
-		else if (Robot.oi.getPOV() == 90)
+			toggle = false;
+		}
+		else if (Robot.oi.getPOV() == 90) {
 			Robot.eject.switchForward();
-		else if (Robot.oi.getPOV() == 270)
+			toggle = false;
+		}
+		else if (Robot.oi.getPOV() == 270 || toggle) {
 			Robot.eject.intakeSlow();
-		else if (Robot.oi.getPOV() == 0)
+			if (toggle == false)
+				toggle = true;
+		}
+		else if (Robot.oi.getPOV() == 0 || toggle) {
 			Robot.eject.intakeFast();
-		else
+			if (toggle == false)
+				toggle = true;
+		}
+		else {
 			Robot.eject.flyWheelsStop();
+			toggle = false;
+		}
 		
 		if (Robot.oi.getLeftBumper())
 			Robot.eject.angleDown();
