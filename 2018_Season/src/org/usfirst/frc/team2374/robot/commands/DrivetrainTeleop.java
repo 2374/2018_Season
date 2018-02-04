@@ -29,7 +29,7 @@ public class DrivetrainTeleop extends Command {
 		else if (leftTrigger != 0)
 			Robot.drive.tankDrive(leftTrigger + leftJoy, leftTrigger + rightJoy);
 		// This is how normal people drive, the left joystick controls the left side of the
-		// drivetrain and the right joystick controls the right side of the drivetrain
+		// drivetrain and the right jo ystick controls the right side of the drivetrain
 		else
 			Robot.drive.tankDrive(leftJoy, rightJoy);
 	}

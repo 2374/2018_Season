@@ -31,8 +31,8 @@ public class Ejector extends Subsystem {
 	private static final double SCALE_RAMP_SPEED = 0.7;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.75;
-	private static final double INTAKE_SPEED_SLOW = 0.25;
-	private static final double INTAKE_SPEED_FAST = 0.5;
+	private static final double INTAKE_SPEED_SLOW = 0.5;
+	private static final double INTAKE_SPEED_FAST = 1.0;
 	private static final double KICKER_SPEED = 0;
 	private static final double KICKER_RAMP_TIME_S = 2;
 	private static final double ELEVATION_SPEED = 0.3;
@@ -137,6 +137,8 @@ public class Ejector extends Subsystem {
 			elev1.setSpeed(ELEVATION_SPEED);
 			elev2.setSpeed(ELEVATION_SPEED);
 		}
+		else
+			stopRotation();
 	}
 	
 	/**
@@ -147,6 +149,8 @@ public class Ejector extends Subsystem {
 			elev1.setSpeed(-ELEVATION_SPEED);
 			elev2.setSpeed(-ELEVATION_SPEED);
 		}
+		else
+			stopRotation();
 	}
 	
 	/**
