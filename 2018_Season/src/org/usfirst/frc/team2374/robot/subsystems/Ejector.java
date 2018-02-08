@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2374.robot.subsystems;
 
+import org.usfirst.frc.team2374.robot.Robot;
 import org.usfirst.frc.team2374.robot.RobotMap;
 import org.usfirst.frc.team2374.robot.commands.EjectorTeleop;
 
@@ -28,14 +29,17 @@ public class Ejector extends Subsystem {
 	// for a fraction of a second before going to full speed, requires
 	// testing to determine whether we should use this, what the speed
 	// should be, and how long it should ramp up for
-	private static final double SCALE_RAMP_SPEED = 0.7;
+	private static final double SCALE_RAMP_SPEED = 0.5;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.75;
-	private static final double INTAKE_SPEED_SLOW = 0.5;
-	private static final double INTAKE_SPEED_FAST = 1.0;
-	private static final double KICKER_SPEED = 0;
-	private static final double KICKER_RAMP_TIME_S = 2;
+	private static final double INTAKE_SPEED_SLOW = 0.3;
+	private static final double INTAKE_SPEED_FAST = 0.4;
+	private static final double KICKER_SPEED = 0.5;
+	private static final double KICKER_TIME_S = 0.25;
+	private static final double KICKER_RAMP_TIME_S = 1.5;
 	private static final double ELEVATION_SPEED = 0.3;
+	private static final double SCALE_DRIVE_SPEED = 0.25;
+	private static final double SCALE_DRIVE_TIME_S = 1.0;
 
 	public static final double ELEVATE_TIMEOUT_S = 5.0;
 	
@@ -67,11 +71,16 @@ public class Ejector extends Subsystem {
 			setEjectorSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
 		else
 			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
-		if (Timer.getFPGATimestamp() - startTime > KICKER_RAMP_TIME_S)
-			setKickerSpeed(SCALE_SPEED_1);
+		if (Timer.getFPGATimestamp() - startTime > KICKER_RAMP_TIME_S) {
+			if (Timer.getFPGATimestamp() - startTime < KICKER_RAMP_TIME_S + KICKER_TIME_S)
+				setKickerSpeed(SCALE_SPEED_1);
+			else if (Timer.getFPGATimestamp() - startTime < KICKER_RAMP_TIME_S + 2 * KICKER_TIME_S)
+				setKickerSpeed(KICKER_SPEED);
+			else
+				setKickerSpeed(0);
+		}
 		else
-			setKickerSpeed(KICKER_SPEED);
-			
+			setKickerSpeed(0);		
 	}
 	
 	/**

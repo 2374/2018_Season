@@ -2,6 +2,7 @@ package org.usfirst.frc.team2374.robot.commands;
 
 import org.usfirst.frc.team2374.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,7 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class EjectorTeleop extends Command {
-	private boolean toggle;
+	private boolean toggleSlow, toggleFast;
+	private double time = 0;
+	
+	private static final double TOGGLE_TIME_S = 0.15;
 
 	public EjectorTeleop() { requires(Robot.eject); }
 	
@@ -35,25 +39,38 @@ public class EjectorTeleop extends Command {
 		// you'll almost definitely have to change the buttons later
 		if (Robot.oi.getPOV() == 180) {
 			Robot.eject.scaleForward();
-			toggle = false;
+			toggleSlow = false;
+			toggleFast = false;
 		}
 		else if (Robot.oi.getPOV() == 90) {
 			Robot.eject.switchForward();
-			toggle = false;
+			toggleSlow = false;
+			toggleFast = false;
 		}
-		else if (Robot.oi.getPOV() == 270 || toggle) {
-			Robot.eject.intakeSlow();
-			if (toggle == false)
-				toggle = true;
+		else if ((Robot.oi.getPOV() == 270 || Robot.oi.getPOV() == 0) && (toggleSlow || toggleFast)
+				&& Timer.getFPGATimestamp() - time > TOGGLE_TIME_S) {
+			Robot.eject.flyWheelsStop();
+			toggleSlow = false;
+			toggleFast = false;
 		}
-		else if (Robot.oi.getPOV() == 0 || toggle) {
+		else if (Robot.oi.getPOV() == 0 || toggleFast) {
+			time = Timer.getFPGATimestamp();
 			Robot.eject.intakeFast();
-			if (toggle == false)
-				toggle = true;
+			toggleSlow = false;
+			if (!toggleFast)
+				toggleFast = true;
+		}
+		else if (Robot.oi.getPOV() == 270 || toggleSlow) {
+			time = Timer.getFPGATimestamp();
+			Robot.eject.intakeSlow();
+			toggleFast = false;
+			if (!toggleSlow)
+				toggleSlow = true;
 		}
 		else {
 			Robot.eject.flyWheelsStop();
-			toggle = false;
+			toggleSlow = false;
+			toggleFast = false;
 		}
 		
 		if (Robot.oi.getLeftBumper())
