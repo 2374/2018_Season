@@ -35,7 +35,7 @@ public class Drivetrain extends Subsystem {
 	// works for 70-90 degree turns (a little slow around 70, 1-2 degrees over around 90)
 	private static final double GYRO_P_LONG = 0.006;
 	private static final double GYRO_I_LONG = 0.00025;
-	private static final double GYRO_D_LONG = 0.0015;
+	private static final double GYRO_D_LONG = 0.00175;
 	// works for 30-45 degree turns (a little slow around 30, 1-2 degrees over around 45)
 	private static final double GYRO_P_SHORT = 0.007;
 	private static final double GYRO_I_SHORT = 0.0004;

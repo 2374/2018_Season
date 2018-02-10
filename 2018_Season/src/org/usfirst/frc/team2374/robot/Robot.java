@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2374.robot;
 
+import org.usfirst.frc.team2374.robot.commands.DriveToTargetUltrasonic;
 import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
 import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
@@ -46,8 +47,6 @@ public class Robot extends IterativeRobot {
 		eject = new Ejector();
 		oi = new OI();
 		ultra = new Ultrasonic();
-		//chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		chooser.addDefault("Turn to 90", new TurnToAngle(90, TurnToAngle.LONG));
 		chooser.addObject("Turn to -90", new TurnToAngle(-90, TurnToAngle.LONG));
 		chooser.addObject("Turn to 70", new TurnToAngle(70, TurnToAngle.LONG));
@@ -56,6 +55,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turn to -45", new TurnToAngle(-45, TurnToAngle.SHORT));
 		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.SHORT));
 		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.SHORT));
+		
+		chooser.addObject("Drive to target with ultrasonic", new DriveToTargetUltrasonic());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 

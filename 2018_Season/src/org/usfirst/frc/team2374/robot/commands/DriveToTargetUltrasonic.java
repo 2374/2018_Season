@@ -17,7 +17,11 @@ public class DriveToTargetUltrasonic extends Command {
 	// commented code is if PID is required
 	@Override
 	protected void initialize() {
-		Robot.drive.arcadeDrive(1, 0);
+		Robot.drive.resetGyro();
+		Robot.drive.setGyroPIDLong();
+		Timer.delay(0.1);
+		Robot.drive.setGyroPIDSetPoint(0);
+		Robot.drive.enableGyroPID(true);
 		/* Robot.drive.resetAllSenors();
 		Robot.drive.setPID();
 		// I don't like doing this but the sensors need a bit of time to reset
@@ -30,6 +34,7 @@ public class DriveToTargetUltrasonic extends Command {
 	
 	@Override
 	protected void execute() {
+		Robot.drive.arcadeDrive(-0.75, -Robot.drive.getGyroPIDOutput());
 		// Robot.drive.arcadeDrive(Robot.drive.getDrivePIDOutput(), Robot.drive.getGyroPIDOutput());
 	}
 	
@@ -45,7 +50,7 @@ public class DriveToTargetUltrasonic extends Command {
 	protected void end() {
 		Robot.drive.arcadeDrive(0, 0);
 		// Robot.drive.enableDrivePID(false);
-		// Robot.drive.enableGyroPID(false);
+		Robot.drive.enableGyroPID(false);
 	}
 	
 	@Override

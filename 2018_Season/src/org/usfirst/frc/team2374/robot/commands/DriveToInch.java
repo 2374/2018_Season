@@ -27,7 +27,7 @@ public class DriveToInch extends Command {
 	
 	@Override
 	protected void execute() {
-		Robot.drive.arcadeDrive(Robot.drive.getDrivePIDOutput(), Robot.drive.getGyroPIDOutput());	
+		Robot.drive.arcadeDrive(-Robot.drive.getDrivePIDOutput(), -Robot.drive.getGyroPIDOutput());	
 	}
 	
 	@Override

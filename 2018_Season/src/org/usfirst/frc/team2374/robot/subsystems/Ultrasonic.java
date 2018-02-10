@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Ultrasonic extends Subsystem{
 	private AnalogInput ultrasonicSensor;
 	
-	public static final double TOLERANCE_IN = 0.0;
+	public static final double TOLERANCE_IN = 10;
 	public static final double MIN_DISTANCE_IN = 6.0;
 	
 	public Ultrasonic() { ultrasonicSensor = new AnalogInput(RobotMap.ULTRASONIC); }
