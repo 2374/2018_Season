@@ -9,9 +9,16 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnToAngle extends Command {
 	private double targetAngleDegrees;
 	
-	public TurnToAngle(double angle) {
+	public static final boolean LONG = true;
+	public static final boolean SHORT = false;
+	
+	public TurnToAngle(double angle, boolean b) {
 		requires(Robot.drive);
 		targetAngleDegrees = angle;
+		if (b)
+			Robot.drive.setGyroPIDLong();
+		else
+			Robot.drive.setGyroPIDShort();
 	}
 	
 	@Override
@@ -25,7 +32,7 @@ public class TurnToAngle extends Command {
 	
 	@Override
 	protected void execute() {
-		Robot.drive.arcadeDrive(0, Robot.drive.getGyroPIDOutput());
+		Robot.drive.arcadeDrive(0, -Robot.drive.getGyroPIDOutput());
 	}
 	
 	@Override

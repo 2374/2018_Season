@@ -27,17 +27,22 @@ public class Drivetrain extends Subsystem {
 	private PIDController drivePID;
 	private PIDController gyroPID;
 	 
-	private static final double MAX_AUTO_SPEED = 1;
+	private static final double MAX_AUTO_SPEED = 0.75;
 	// these all need to be calibrated
 	private static final double DRIVE_P = 0.03;
 	private static final double DRIVE_I = 0.000;
 	private static final double DRIVE_D = 0;
-	private static final double GYRO_P = 0.008;
-	private static final double GYRO_I = 0.00045;
-	private static final double GYRO_D = 0;
+	// works for 70-90 degree turns (a little slow around 70, 1-2 degrees over around 90)
+	private static final double GYRO_P_LONG = 0.006;
+	private static final double GYRO_I_LONG = 0.00025;
+	private static final double GYRO_D_LONG = 0.0015;
+	// works for 30-45 degree turns (a little slow around 30, 1-2 degrees over around 45)
+	private static final double GYRO_P_SHORT = 0.007;
+	private static final double GYRO_I_SHORT = 0.0004;
+	private static final double GYRO_D_SHORT = 0.000;
 	
-	public static final double GYRO_TOLERANCE_DEG = 0;
-	public static final double DRIVE_TOLERANCE_IN = 0;
+	public static final double GYRO_TOLERANCE_DEG = 1.0;
+	public static final double DRIVE_TOLERANCE_IN = 1.0;
 	  
 	public Drivetrain() {
 		// center motors are mCIMs, front and back are CIMs
@@ -72,7 +77,7 @@ public class Drivetrain extends Subsystem {
 		});
 		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
 		
-		gyroPID = new PIDController(GYRO_P, GYRO_I, GYRO_D, navX, new PIDOutput() {
+		gyroPID = new PIDController(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG, navX, new PIDOutput() {
 			@Override
 			public void pidWrite(double arg0) {
 			}
@@ -149,8 +154,12 @@ public class Drivetrain extends Subsystem {
 	// multiple PID constants for different distances
 	public void setPID() {
 		drivePID.setPID(DRIVE_P, DRIVE_I, DRIVE_D);
-		gyroPID.setPID(GYRO_P, GYRO_I, GYRO_D);
+		gyroPID.setPID(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG);
 	}
+	
+	public void setGyroPIDLong() { gyroPID.setPID(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG); }
+	
+	public void setGyroPIDShort() { gyroPID.setPID(GYRO_P_SHORT, GYRO_I_SHORT, GYRO_D_SHORT); }
 	
 	public void setDrivePIDSetPoint(double inches) { drivePID.setSetpoint(inches); }
 	

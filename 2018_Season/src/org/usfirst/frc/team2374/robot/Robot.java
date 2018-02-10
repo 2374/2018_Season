@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2374.robot;
 
+import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
 import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2374.robot.subsystems.Ejector;
@@ -45,9 +46,16 @@ public class Robot extends IterativeRobot {
 		eject = new Ejector();
 		oi = new OI();
 		ultra = new Ultrasonic();
-		// TODO(CR): Avoid pushing commented out code
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		chooser.addDefault("Turn to 90", new TurnToAngle(90, TurnToAngle.LONG));
+		chooser.addObject("Turn to -90", new TurnToAngle(-90, TurnToAngle.LONG));
+		chooser.addObject("Turn to 70", new TurnToAngle(70, TurnToAngle.LONG));
+		chooser.addObject("Turn to -70", new TurnToAngle(-70, TurnToAngle.LONG));
+		chooser.addObject("Turn to 45", new TurnToAngle(45, TurnToAngle.SHORT));
+		chooser.addObject("Turn to -45", new TurnToAngle(-45, TurnToAngle.SHORT));
+		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.SHORT));
+		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.SHORT));
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -92,6 +100,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
+		SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
+		SmartDashboard.putNumber("ultra inches", Robot.ultra.getDistanceInches());
+		SmartDashboard.putNumber("angle", Robot.drive.getAngle());
 	}
 
 	@Override
