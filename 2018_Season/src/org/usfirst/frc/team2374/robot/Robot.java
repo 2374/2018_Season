@@ -103,6 +103,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		autoGameData = null;
+		Robot.drive.resetAllSenors();
 	}
 
 	/**
@@ -111,8 +112,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("right encoder inches (hopefully)", Robot.drive.getRightDistanceInches());
-		SmartDashboard.putNumber("left encoder inches (hopefully)", Robot.drive.getLeftDistanceInches());
+		SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
+		SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
+		SmartDashboard.putNumber("ultra inches", Robot.ultra.getDistanceInches());
+		SmartDashboard.putNumber("angle", Robot.drive.getAngle());
 	}
 
 	/**

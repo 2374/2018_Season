@@ -33,7 +33,7 @@ public class Ejector extends Subsystem {
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	private static final double SWITCH_SPEED = 0.75;
 	private static final double INTAKE_SPEED_SLOW = 0.3;
-	private static final double INTAKE_SPEED_FAST = 0.4;
+	private static final double INTAKE_SPEED_FAST = 0.5;
 	private static final double KICKER_SPEED = 0.5;
 	private static final double KICKER_TIME_S = 0.25;
 	private static final double KICKER_RAMP_TIME_S = 1.5;

@@ -193,6 +193,14 @@ public class Drivetrain extends Subsystem {
 		resetGyro();
 	}
 	
+	public double testEncoderLeft() {
+		return middleLeft.getSelectedSensorPosition(0);
+	}
+	
+	public double testEncoderRight() {
+		return middleRight.getSelectedSensorPosition(0);
+	}
+	
 	public double getLeftDistanceInches() {
 		return encoderCntsToInches(middleLeft.getSelectedSensorPosition(0), TwoEncoderPIDSource.EC_PER_REV_LEFT);
 	}
