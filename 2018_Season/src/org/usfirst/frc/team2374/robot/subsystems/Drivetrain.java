@@ -29,13 +29,13 @@ public class Drivetrain extends Subsystem {
 
 	private static final double MAX_AUTO_SPEED_DRIVE = 0.75;
 	private static final double MAX_AUTO_SPEED_GYRO = 1;
-	// calibrated for 5-10 ft, can drive 15 ft but isn't really straight
+	// calibrated for 5-10 ft, can drive further but it swerves a bit
 	private static final double DRIVE_P = 0.035;
 	private static final double DRIVE_I = 0.00;
 	private static final double DRIVE_D = 0;
 	
-	private static final double GYRO_P_DRIVE = 0.0031;
-	private static final double GYRO_I_DRIVE = 0.0001;
+	private static final double GYRO_P_DRIVE = 0.003;
+	private static final double GYRO_I_DRIVE = 0.000;
 	private static final double GYRO_D_DRIVE = 0.00001;
 	// calibrated for 70-90 degrees on test bot in lower shop
 	private static final double GYRO_P_LONG = 0.006;
