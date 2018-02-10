@@ -26,9 +26,9 @@ public class TurnToAngle extends Command {
 	@Override
 	protected void initialize() {
 		Robot.drive.resetGyro();
-		if (LONG)
+		if (PIDVersion == LONG)
 			Robot.drive.setGyroPIDLong();
-		else if (SHORT)
+		else if (PIDVersion == SHORT)
 			Robot.drive.setGyroPIDShort();
 		Timer.delay(0.1);
 		Robot.drive.setGyroPIDSetPoint(targetAngleDegrees);
