@@ -17,7 +17,8 @@ public class DriveToInch extends Command {
 	@Override
 	protected void initialize() {
 		Robot.drive.resetAllSenors();
-		Robot.drive.setPID();
+		Robot.drive.setDrivePID();
+		Robot.drive.setGyroPIDShort();
 		Timer.delay(0.1);
 		Robot.drive.setDrivePIDSetPoint(wantedDistanceInches);
 		Robot.drive.setGyroPIDSetPoint(0);

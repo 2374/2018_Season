@@ -27,12 +27,16 @@ public class Drivetrain extends Subsystem {
 	private PIDController drivePID;
 	private PIDController gyroPID;
 
-	private static final double MAX_AUTO_SPEED_DRIVE = 1;
+	private static final double MAX_AUTO_SPEED_DRIVE = 0.75;
 	private static final double MAX_AUTO_SPEED_GYRO = 1;
-	// these all need to be calibrated
-	private static final double DRIVE_P = 0.03;
-	private static final double DRIVE_I = 0.000;
+	// calibrated for 5-10 ft, can drive 15 ft but isn't really straight
+	private static final double DRIVE_P = 0.035;
+	private static final double DRIVE_I = 0.00;
 	private static final double DRIVE_D = 0;
+	
+	private static final double GYRO_P_DRIVE = 0.0031;
+	private static final double GYRO_I_DRIVE = 0.0001;
+	private static final double GYRO_D_DRIVE = 0.00001;
 	// calibrated for 70-90 degrees on test bot in lower shop
 	private static final double GYRO_P_LONG = 0.006;
 	private static final double GYRO_I_LONG = 0.00025;
@@ -151,11 +155,9 @@ public class Drivetrain extends Subsystem {
 	    middleLeft.set(ControlMode.PercentOutput, rightMotorSpeed);
 	}
 	
-	// this isn't too useful now but it will be relevant if we need
-	// multiple PID constants for different distances
-	public void setPID() {
+	public void setDrivePID() { 
 		drivePID.setPID(DRIVE_P, DRIVE_I, DRIVE_D);
-		gyroPID.setPID(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG);
+		gyroPID.setPID(GYRO_P_DRIVE, GYRO_I_DRIVE, GYRO_D_DRIVE);
 	}
 	
 	public void setGyroPIDLong() { gyroPID.setPID(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG); }
