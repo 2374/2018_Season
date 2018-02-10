@@ -26,17 +26,18 @@ public class Drivetrain extends Subsystem {
 	private TwoEncoderPIDSource driveIn;
 	private PIDController drivePID;
 	private PIDController gyroPID;
-	 
-	private static final double MAX_AUTO_SPEED = 0.75;
+
+	private static final double MAX_AUTO_SPEED_DRIVE = 1;
+	private static final double MAX_AUTO_SPEED_GYRO = 1;
 	// these all need to be calibrated
 	private static final double DRIVE_P = 0.03;
 	private static final double DRIVE_I = 0.000;
 	private static final double DRIVE_D = 0;
-	// works for 70-90 degree turns (a little slow around 70, 1-2 degrees over around 90)
+	// calibrated for 70-90 degrees on test bot in lower shop
 	private static final double GYRO_P_LONG = 0.006;
 	private static final double GYRO_I_LONG = 0.00025;
 	private static final double GYRO_D_LONG = 0.00175;
-	// works for 30-45 degree turns (a little slow around 30, 1-2 degrees over around 45)
+	// calibrated for 30-45 degrees on test bot in lower shop
 	private static final double GYRO_P_SHORT = 0.007;
 	private static final double GYRO_I_SHORT = 0.0004;
 	private static final double GYRO_D_SHORT = 0.000;
@@ -75,7 +76,7 @@ public class Drivetrain extends Subsystem {
 			public void pidWrite(double arg0) {
 			}
 		});
-		drivePID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+		drivePID.setOutputRange(-MAX_AUTO_SPEED_DRIVE, MAX_AUTO_SPEED_DRIVE);
 		
 		gyroPID = new PIDController(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG, navX, new PIDOutput() {
 			@Override
@@ -83,7 +84,7 @@ public class Drivetrain extends Subsystem {
 			}
 		});
 		gyroPID.setInputRange(-180.0, 180.0);
-		gyroPID.setOutputRange(-MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+		gyroPID.setOutputRange(-MAX_AUTO_SPEED_GYRO, MAX_AUTO_SPEED_GYRO);
 		gyroPID.setContinuous(true);
 	}
 
