@@ -39,7 +39,7 @@ public class Drivetrain extends Subsystem {
 	private static final double GYRO_D_DRIVE = 0.00001;
 	// calibrated for 70-90 degrees on test bot in lower shop
 	private static final double GYRO_P_LONG = 0.006;
-	private static final double GYRO_I_LONG = 0.00025;
+	private static final double GYRO_I_LONG = 0.00024;
 	private static final double GYRO_D_LONG = 0.00175;
 	// calibrated for 30-45 degrees on test bot in lower shop
 	private static final double GYRO_P_SHORT = 0.007;

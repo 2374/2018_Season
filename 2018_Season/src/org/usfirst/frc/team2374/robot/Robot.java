@@ -4,6 +4,9 @@ package org.usfirst.frc.team2374.robot;
 import org.usfirst.frc.team2374.robot.commands.DriveToInch;
 import org.usfirst.frc.team2374.robot.commands.DriveToTargetUltrasonic;
 import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
+import org.usfirst.frc.team2374.robot.commands.auto.RunCenter;
+import org.usfirst.frc.team2374.robot.commands.auto.RunLeft;
+import org.usfirst.frc.team2374.robot.commands.auto.RunRight;
 import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2374.robot.subsystems.Ejector;
@@ -32,7 +35,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Ultrasonic ultra;
 	
-	public String autoGameData;
+	public static String autoGameData;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -62,6 +65,11 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Drive 5 ft", new DriveToInch(60));
 		
 		chooser.addObject("Drive to target with ultrasonic", new DriveToTargetUltrasonic());
+		
+		chooser.addObject("Right", new RunRight());
+		chooser.addObject("Center", new RunCenter());
+		chooser.addObject("Left", new RunLeft());
+		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -106,6 +114,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		// SmartDashboard.putString("Auto Game Data", autoGameData);
 		SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
 		SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
 		SmartDashboard.putNumber("ultra inches", Robot.ultra.getDistanceInches());
