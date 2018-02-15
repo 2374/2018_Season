@@ -7,6 +7,8 @@ import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
 import org.usfirst.frc.team2374.robot.commands.auto.RunCenter;
 import org.usfirst.frc.team2374.robot.commands.auto.RunLeft;
 import org.usfirst.frc.team2374.robot.commands.auto.RunRight;
+import org.usfirst.frc.team2374.robot.commands.auto.RunScaleLeft;
+import org.usfirst.frc.team2374.robot.commands.auto.RunScaleRight;
 import org.usfirst.frc.team2374.robot.subsystems.Climber;
 import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team2374.robot.subsystems.Ejector;
@@ -69,6 +71,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Right", new RunRight());
 		chooser.addObject("Center", new RunCenter());
 		chooser.addObject("Left", new RunLeft());
+		
+		chooser.addObject("Scale Left", new RunScaleLeft());
+		chooser.addObject("Scale Right", new RunScaleRight());
 		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
