@@ -1,13 +1,10 @@
 package org.usfirst.frc.team2374.robot.subsystems;
 
-import org.usfirst.frc.team2374.robot.Robot;
 import org.usfirst.frc.team2374.robot.RobotMap;
 import org.usfirst.frc.team2374.robot.commands.EjectorTeleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -127,7 +124,7 @@ public class Ejector extends Subsystem {
 	 * @param speed2 right flywheel speed
 	 */
 	private void setEjectorSpeed(double speed1, double speed2) {
-		eject1.setSpeed(speed1);
+		eject1.setSpeed(-speed1);
 		eject2.setSpeed(-speed2);
 	}
 	
@@ -142,7 +139,7 @@ public class Ejector extends Subsystem {
 	public void angleUp() {
 		if (!atScalePos()) {
 			elev1.setSpeed(ELEVATION_SPEED);
-			elev2.setSpeed(ELEVATION_SPEED);
+			elev2.setSpeed(-ELEVATION_SPEED);
 		}
 		else
 			stopRotation();
@@ -154,7 +151,7 @@ public class Ejector extends Subsystem {
 	public void angleDown() {
 		if (!atIntakePos()) {
 			elev1.setSpeed(-ELEVATION_SPEED);
-			elev2.setSpeed(-ELEVATION_SPEED);
+			elev2.setSpeed(ELEVATION_SPEED);
 		}
 		else
 			stopRotation();
