@@ -10,17 +10,18 @@ public class OI {
 	private Joystick driver;
 	
 	// This value requires extensive testing, it may not be used at all
-	private static final double DEAD_ZONE_VAL = 0.2;
+	private static final double DEAD_ZONE_VAL_LOWER = 0.2;
+	private static final double DEAD_ZONE_VAL_UPPER = 0.3;
 
 	public OI() { driver = new Joystick(RobotMap.driverJoy); }
 
-	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL); }
+	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL_LOWER, DEAD_ZONE_VAL_UPPER); }
 
-	public double getDriverRightY() { return deadZone(driver.getRawAxis(RobotMap.rsRightAxisY), DEAD_ZONE_VAL); }
+	public double getDriverRightY() { return deadZone(driver.getRawAxis(RobotMap.rsRightAxisY), DEAD_ZONE_VAL_LOWER, DEAD_ZONE_VAL_UPPER); }
 
-	public double getLeftTrigger() { return deadZone(driver.getRawAxis(RobotMap.rsLeftTrigger), DEAD_ZONE_VAL); }
+	public double getLeftTrigger() { return driver.getRawAxis(RobotMap.rsLeftTrigger); }
 
-	public double getRightTrigger() { return deadZone(driver.getRawAxis(RobotMap.rsRightTrigger), DEAD_ZONE_VAL); }
+	public double getRightTrigger() { return driver.getRawAxis(RobotMap.rsRightTrigger); }
 
 	public boolean getButtonA() { return driver.getRawButton(RobotMap.rsButtonA); }
 	
@@ -44,15 +45,15 @@ public class OI {
 	 * Snaps the provided axisValue to 0, 1, or -1 if it is within deadValue of one of those
 	 * values.
 	 * @param axisValue The value to apply the deadzone to
-	 * @param deadValue The size of the deadzone
+	 * @param deadValueLow The size of the deadzone
 	 * @return axisValue with the deadzone applied
 	 */
-	public static double deadZone(double axisValue, double deadValue) {
-		if (Math.abs(axisValue) < deadValue)
+	public static double deadZone(double axisValue, double deadValueLow, double deadValueHigh) {
+		if (Math.abs(axisValue) < deadValueLow)
 			return 0;
-		else if (1 - axisValue < deadValue)
+		else if (1 - axisValue < deadValueHigh)
 			return 1;
-		else if (-1 - axisValue > -deadValue)
+		else if (-1 - axisValue > -deadValueHigh)
 			return -1;
 		else
 			return axisValue;

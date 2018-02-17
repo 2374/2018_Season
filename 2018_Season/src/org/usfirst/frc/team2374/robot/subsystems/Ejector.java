@@ -25,8 +25,8 @@ public class Ejector extends Subsystem {
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	
 	private static final double SWITCH_SPEED = 0.75;
+	private static final double LOW_SCALE_RAMP_TIME_S = 1;
 	
-	private static final double INTAKE_SPEED_SLOW = 0.3;
 	private static final double INTAKE_SPEED_FAST = 0.5;
 	
 	private static final double KICKER_SPEED = 0.5;
@@ -55,7 +55,6 @@ public class Ejector extends Subsystem {
 	 * and sets the flywheels to an intermediate speed for a fraction of
 	 * a second before moving to full speed
 	 */
-	// there is a very good chance that all of these are backwards
 	public void scaleForward() {
 		if (startTime == 0)
 			startTime = Timer.getFPGATimestamp();
@@ -76,6 +75,26 @@ public class Ejector extends Subsystem {
 	}
 	
 	/**
+	 * Called when delivering to low scale, same as regular but with
+	 * lower ramp time and firing speed
+	 */
+	public void lowScaleForward() {
+		if (startTime == 0)
+			startTime = Timer.getFPGATimestamp();
+		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
+		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_RAMP_TIME_S) {
+			if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_RAMP_TIME_S + KICKER_TIME_S)
+				setKickerSpeed(SCALE_SPEED_1);
+			else if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_RAMP_TIME_S + 2 * KICKER_TIME_S)
+				setKickerSpeed(KICKER_SPEED);
+			else
+				setKickerSpeed(0);
+		}
+		else
+			setKickerSpeed(0);		
+	}
+	
+	/**
 	 * Called when delivering to switch
 	 */
 	public void switchForward() {
@@ -85,18 +104,9 @@ public class Ejector extends Subsystem {
 	}
 	
 	/**
-	 * Called when intaking cubes, motors at half speed
+	 * Called when intaking cubes
 	 */
-	public void intakeSlow() {
-		setEjectorSpeed(-INTAKE_SPEED_SLOW, -INTAKE_SPEED_SLOW);
-		setKickerSpeed(-INTAKE_SPEED_SLOW);
-		startTime = 0;
-	}
-	
-	/**
-	 * Called when intaking cubes, motors at full speed
-	 */
-	public void intakeFast() {
+	public void intake() {
 		setEjectorSpeed(-INTAKE_SPEED_FAST, -INTAKE_SPEED_FAST);
 		setKickerSpeed(-INTAKE_SPEED_FAST);
 		startTime = 0;
