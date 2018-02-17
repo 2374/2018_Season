@@ -84,14 +84,10 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	@Override
-	public void disabledInit() {
-
-	}
+	public void disabledInit() { }
 
 	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
+	public void disabledPeriodic() { Scheduler.getInstance().run(); }
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
