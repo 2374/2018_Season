@@ -6,6 +6,14 @@ import org.usfirst.frc.team2374.robot.subsystems.Ultrasonic;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Called during autonomous, drives in a straight line until it reaches a wall.
+ * Uses ultrasonic sensor to measure distance and gyro to measure angle. Uses
+ * PID algorithm to stay in a straight line but not for distance. Robot drives
+ * at fixed speed and then skids to a stop right in front of wall.
+ * 
+ * @author Robotics
+ */
 public class DriveToTargetUltrasonic extends Command {
 	
 	public DriveToTargetUltrasonic() {
@@ -13,8 +21,8 @@ public class DriveToTargetUltrasonic extends Command {
 		requires(Robot.ultra);
 	}
 	
-	// ideally this will work without PID (we want speed over accuracy for this) but if it doesn't then
-	// commented code is if PID is required
+	// this works without PID (we want speed over accuracy for this) but use
+	// commented code if PID is required
 	@Override
 	protected void initialize() {
 		Robot.drive.resetGyro();

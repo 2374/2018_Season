@@ -5,8 +5,13 @@ import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Called during autonomous, turns the robot to the specified angle.
+ * Uses gyro to measure angle and PID algorithm to regulate output.
+ * 
+ * @author Robotics
+ */
 public class TurnToAngle extends Command {
 	private double targetAngleDegrees;
 	private boolean PIDVersion;

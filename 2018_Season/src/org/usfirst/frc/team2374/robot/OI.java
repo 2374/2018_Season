@@ -1,11 +1,6 @@
 package org.usfirst.frc.team2374.robot;
 
-import org.usfirst.frc.team2374.robot.commands.EjectorDown;
-import org.usfirst.frc.team2374.robot.commands.EjectorUp;
-import org.usfirst.frc.team2374.robot.subsystems.Ejector;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -13,19 +8,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	private Joystick driver;
-	private JoystickButton leftBumper;
-	private JoystickButton rightBumper;
 	
 	// This value requires extensive testing, it may not be used at all
 	private static final double DEAD_ZONE_VAL = 0.2;
 
-	public OI() {
-		driver = new Joystick(RobotMap.driverJoy);
-		leftBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);
-		rightBumper = new JoystickButton(driver, RobotMap.rsLeftBumper);		
-		// leftBumper.whenPressed(new EjectorUp(Ejector.ELEVATE_TIMEOUT_S));
-		// rightBumper.whenPressed(new EjectorDown(Ejector.ELEVATE_TIMEOUT_S));
-	}
+	public OI() { driver = new Joystick(RobotMap.driverJoy); }
 
 	public double getDriverLeftY() { return deadZone(driver.getRawAxis(RobotMap.rsLeftAxisY), DEAD_ZONE_VAL); }
 

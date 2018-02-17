@@ -6,13 +6,18 @@ import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Called during autonomous, drives the robot in a straight line until it arrives at the
+ * target distance. Uses encoders to measure distance, gyro to measure angle, and a PID
+ * algorithm to regulate output
+ * 
+ * @author Robotics
+ */
 public class DriveToInch extends Command {
 
 	protected double wantedDistanceInches;
 	
-	public DriveToInch(double targetDistance) {
-		this.wantedDistanceInches = targetDistance;
-	}
+	public DriveToInch(double targetDistance) { this.wantedDistanceInches = targetDistance; }
 	
 	@Override
 	protected void initialize() {
@@ -43,7 +48,5 @@ public class DriveToInch extends Command {
 	}
 	
 	@Override
-	protected void interrupted() {
-		end();
-	}
+	protected void interrupted() { end(); }
 }

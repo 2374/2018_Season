@@ -16,10 +16,26 @@ public class Ultrasonic extends Subsystem{
 	@Override
 	protected void initDefaultCommand() { }
 	
+	/**
+	 * The average voltage of the ultrasonic sensor
+	 * 
+	 * @return average voltage
+	 */
 	public double getVoltage() { return ultrasonicSensor.getAverageVoltage(); }
 	
+	/**
+	 * The distance in inches measured by ultrasonic sensor
+	 * 
+	 * @return distance in inches
+	 */
 	public double getDistanceInches() { return convertVoltageToDistance(getVoltage()); }
 	
-	private double convertVoltageToDistance(double d)  { return d * (512/5); }
+	/**
+	 * Converts voltage to inches
+	 * 
+	 * @param volts the voltage to convert
+	 * @return inches
+	 */
+	private double convertVoltageToDistance(double volts)  { return volts * (512/5); }
 
 }

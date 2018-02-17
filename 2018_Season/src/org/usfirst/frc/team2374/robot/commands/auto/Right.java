@@ -5,17 +5,20 @@ import org.usfirst.frc.team2374.robot.commands.DriveToInch;
 import org.usfirst.frc.team2374.robot.commands.DriveToTargetUltrasonic;
 import org.usfirst.frc.team2374.robot.commands.EjectorUp;
 import org.usfirst.frc.team2374.robot.commands.SwitchDeliveryTimed;
-import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Called during autonomous when robot starts in right position,
+ * either delivers cube to switch or crosses line depending on
+ * which side we score on
+ * 
+ * @author Robotics
+ */
 public class Right extends CommandGroup{
 	
-	private Drivetrain drivetrain = Robot.drive;
-	
 	public Right() {
-		requires(drivetrain);
-		
+		requires(Robot.drive);
 		// RIGHT
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'R'){
 			addSequential(new DriveToTargetUltrasonic());

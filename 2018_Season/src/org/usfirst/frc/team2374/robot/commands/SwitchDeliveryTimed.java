@@ -5,9 +5,8 @@ import org.usfirst.frc.team2374.robot.Robot;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
- * Raises ejector to scale position, the command stops
- * after a certain amount of time if the limit switch
- * hasn't been tripped yet
+ * Called during autonomous, calls switchForward method of Ejector
+ * until it times out
  * 
  * @author robotics
  */

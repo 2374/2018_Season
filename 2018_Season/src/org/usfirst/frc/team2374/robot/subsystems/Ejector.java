@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Ejector extends Subsystem {
 	private Victor eject1, eject2;
 	private Spark kicker1, kicker2, elev1, elev2;
-	// there is a very good chance that neither of the limit switches work
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
 	
@@ -22,21 +21,19 @@ public class Ejector extends Subsystem {
 	// are probably right
 	private static final double SCALE_SPEED_1 = 1.0;
 	private static final double SCALE_SPEED_2 = 0.95;
-	// experimental, idea is to set ejector to an intermediate speed
-	// for a fraction of a second before going to full speed, requires
-	// testing to determine whether we should use this, what the speed
-	// should be, and how long it should ramp up for
 	private static final double SCALE_RAMP_SPEED = 0.5;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
+	
 	private static final double SWITCH_SPEED = 0.75;
+	
 	private static final double INTAKE_SPEED_SLOW = 0.3;
 	private static final double INTAKE_SPEED_FAST = 0.5;
+	
 	private static final double KICKER_SPEED = 0.5;
 	private static final double KICKER_TIME_S = 0.25;
 	private static final double KICKER_RAMP_TIME_S = 1.5;
+	
 	private static final double ELEVATION_SPEED = 0.3;
-
-	public static final double ELEVATE_TIMEOUT_S = 5.0;
 	
 	public Ejector() {
 		eject1 = new Victor(RobotMap.VICTOR_EJECTOR_1);
@@ -128,6 +125,13 @@ public class Ejector extends Subsystem {
 		eject2.setSpeed(-speed2);
 	}
 	
+	/**
+	 * Set the kicker wheel speed, the left and right kicker
+	 * wheels spin in opposite directions
+	 * 
+	 * @param speed1 left kicker wheel speed
+	 * @param speed2 right kicker wheel speed
+	 */
 	private void setKickerSpeed(double speed) {
 		kicker1.setSpeed(speed);
 		kicker2.setSpeed(-speed);

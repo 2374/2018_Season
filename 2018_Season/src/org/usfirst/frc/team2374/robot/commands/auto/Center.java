@@ -5,17 +5,20 @@ import org.usfirst.frc.team2374.robot.commands.DriveToInch;
 import org.usfirst.frc.team2374.robot.commands.EjectorUp;
 import org.usfirst.frc.team2374.robot.commands.SwitchDeliveryTimed;
 import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
-import org.usfirst.frc.team2374.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Called during autonomous when robot starts in center position,
+ * delivers cube to either right or left side of switch depending
+ * on which side we score on 
+ * 
+ * @author Robotics
+ */
 public class Center extends CommandGroup {
-
-	private Drivetrain drivetrain = Robot.drive;
 	
 	public Center() {
-		requires(drivetrain);
-		
+		requires(Robot.drive);
 		// RIGHT SIDE
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'R') {
 			addSequential(new TurnToAngle(35, TurnToAngle.SHORT));

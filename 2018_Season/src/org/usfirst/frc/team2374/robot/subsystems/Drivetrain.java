@@ -9,8 +9,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -154,37 +152,90 @@ public class Drivetrain extends Subsystem {
 	    middleRight.set(ControlMode.PercentOutput, leftMotorSpeed);
 	    middleLeft.set(ControlMode.PercentOutput, rightMotorSpeed);
 	}
-	
+	/**
+	 * Set PID constants for driving forward in straight line
+	 */
 	public void setDrivePID() { 
 		drivePID.setPID(DRIVE_P, DRIVE_I, DRIVE_D);
 		gyroPID.setPID(GYRO_P_DRIVE, GYRO_I_DRIVE, GYRO_D_DRIVE);
 	}
 	
+	/**
+	 * Set PID constants for turning to large angle (70-90 deg)
+	 */
 	public void setGyroPIDLong() { gyroPID.setPID(GYRO_P_LONG, GYRO_I_LONG, GYRO_D_LONG); }
 	
+	/**
+	 * Set PID constants for turning to small angle (30-50 deg)
+	 */
 	public void setGyroPIDShort() { gyroPID.setPID(GYRO_P_SHORT, GYRO_I_SHORT, GYRO_D_SHORT); }
 	
+	/**
+	 * Setpoint for drivetrain PID
+	 * 
+	 * @param inches target distance in inches
+	 */
 	public void setDrivePIDSetPoint(double inches) { drivePID.setSetpoint(inches); }
 	
+	/**
+	 * Setpoint for gyro PID
+	 * 
+	 * @param degrees target angle in deg
+	 */
 	public void setGyroPIDSetPoint(double degrees) { gyroPID.setSetpoint(degrees); }
 	
+	/**
+	 * Output for drivetrain based on drive PID
+	 * 
+	 * @return the number (-1.0 to 1.0) the drivetrain should be set to
+	 */
 	public double getDrivePIDOutput() { return drivePID.get(); }
 	
+	/**
+	 * Output for drivetrain based on gyro PID
+	 * 
+	 * @return the number (-1.0 to 1.0) the drivetrain should be set to
+	 */
 	public double getGyroPIDOutput() { return gyroPID.get(); }
 	
+	/**
+	 * Difference between target distance and actual distance
+	 * 
+	 * @return difference between target and actual distance in inches
+	 */
 	public double getDrivePIDError() { return drivePID.getError(); }
 	
+	/**
+	 * Difference between target angle and actual angle
+	 * 
+	 * @return difference between target and actual angle in inches
+	 */
 	public double getGyroPIDError() { return gyroPID.getError(); }
 	
+	/**
+	 * The robot's angle based on navX internal gyro
+	 * 
+	 * @return the robot's angle in deg
+	 */
 	public double getAngle() { return navX.getYaw(); }
 	
+	/**
+	 * Called when enabling drive PID
+	 * 
+	 * @param enable enables drive PID if true, resets drive PID if false
+	 */
 	public void enableDrivePID(boolean enable) {
 		if (enable)
 			drivePID.enable();
 		else
 			drivePID.reset();
 	}
-
+	
+	/**
+	 * Called when enabling gyro PID
+	 * 
+	 * @param enable enables gyro PID if true, resets gyro PID if false
+	 */
 	public void enableGyroPID(boolean enable) {
 		if (enable)
 			gyroPID.enable();
@@ -192,39 +243,77 @@ public class Drivetrain extends Subsystem {
 			gyroPID.reset();
 	}
 	
-	// test this it probably doesn't work
+	/**
+	 * Called when reseting encoders (for example before executing DriveToInch())
+	 */
 	public void resetEncoders() {
 		middleLeft.setSelectedSensorPosition(0, 0, 10);
 		middleRight.setSelectedSensorPosition(0, 0, 10);
 	}
-
+	
+	/**
+	 * Called when reseting gyro (for example before executing TurnToAngle())
+	 */
 	public void resetGyro() { navX.reset(); }
-
+	
+	/**
+	 * Called when reseting encoders and gyro (for example before executing DriveToInch())
+	 */
 	public void resetAllSenors() {
 		resetEncoders();
 		resetGyro();
 	}
 	
-	public double testEncoderLeft() {
-		return middleLeft.getSelectedSensorPosition(0);
-	}
+	/**
+	 * Returns raw encoder counts from left encoder, used when testing left encoder
+	 * 
+	 * @return left encoder counts
+	 */
+	public double encoderLeftRaw() { return middleLeft.getSelectedSensorPosition(0); }
 	
-	public double testEncoderRight() {
-		return middleRight.getSelectedSensorPosition(0);
-	}
+	/**
+	 * Returns raw encoder counts from right encoder, used when testing right encoder
+	 * 
+	 * @return right encoder counts
+	 */
+	public double encoderRightRaw() { return middleRight.getSelectedSensorPosition(0); }
 	
+	/**
+	 * Convert left encoder counts to inches
+	 * 
+	 * @return distance in inches measured by left encoder
+	 */
 	public double getLeftDistanceInches() {
 		return encoderCntsToInches(middleLeft.getSelectedSensorPosition(0), TwoEncoderPIDSource.EC_PER_REV_LEFT);
 	}
-
+	
+	/**
+	 * Convert right encoder counts to inches
+	 * 
+	 * @return distance in inches measured by right encoder
+	 */
 	public double getRightDistanceInches() {
 		return encoderCntsToInches(middleRight.getSelectedSensorPosition(0), TwoEncoderPIDSource.EC_PER_REV_RIGHT);
 	}
-
+	
+	/**
+	 * Convert encoder counts to inches
+	 * 
+	 * @param counts encoder counts
+	 * @param countsPerRev number of encoder counts per wheel revolution
+	 * @return distance in inches measured by encoders
+	 */
 	public static double encoderCntsToInches(double counts, double countsPerRev) {
 		return (counts / countsPerRev) * (TwoEncoderPIDSource.WHEEL_DIAMETER_INCHES * Math.PI);
 	}
-
+	
+	/**
+	 * Convert inches to encoder counts
+	 * 
+	 * @param counts inches
+	 * @param countsPerRev number of encoder counts per wheel revolution
+	 * @return encoder counts based on inches travelled
+	 */
 	public static double inchesToEncoderCnts(double inches, double countsPerRev) {
 		return inches * countsPerRev / (TwoEncoderPIDSource.WHEEL_DIAMETER_INCHES * Math.PI);
 	}

@@ -4,6 +4,12 @@ import org.usfirst.frc.team2374.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Called during autonomous, calls scaleForward() method of Ejector
+ * until it times out
+ * 
+ * @author Robotics
+ */
 public class ScaleDeliveryTimed extends TimedCommand {
 	
 	public ScaleDeliveryTimed(double timeout) { 

@@ -19,13 +19,13 @@ public class ClimberTeleop extends Command {
 
 	@Override
 	protected void execute() {
-		if (Robot.oi.getButtonBack())
-			Robot.climb.fan();
+		if (Robot.oi.getButtonA())
+			Robot.climb.raiseClimber();
 		else
-			Robot.climb.fanOff();
-		if (Robot.oi.getButtonStart()) {
+			Robot.climb.armOff();
+		if (Robot.oi.getButtonB()) {
 			Robot.climb.climbUp();
-			Robot.climb.fanOff();
+			Robot.climb.armOff();
 		}
 		else
 			Robot.climb.climbStop();
@@ -36,7 +36,7 @@ public class ClimberTeleop extends Command {
 
 	@Override
 	protected void end() {
-		Robot.climb.fanOff();
+		Robot.climb.armOff();
 		Robot.climb.climbStop();
 	}
 
