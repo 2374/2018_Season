@@ -155,10 +155,8 @@ public class Ejector extends Subsystem {
 			elev1.setSpeed(ELEVATION_SPEED);
 			elev2.setSpeed(-ELEVATION_SPEED);
 		}
-		else {
-			SmartDashboard.putString("Scale LS Down", "Scale LS Down");
+		else
 			stopRotation();
-		}
 	}
 	
 	/**
