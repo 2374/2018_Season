@@ -66,6 +66,10 @@ public class Drivetrain extends Subsystem {
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
 		
+		// the magnetic encoders we have are plugged directly into the talons, the method below
+		// sets the middle motors on each side to receive feedback from magnetic encoders, the 0
+		// is there for some random setting (just go with it) and the 10 sets it to update every
+		// 10 ms
 		middleRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		middleLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		
@@ -120,7 +124,6 @@ public class Drivetrain extends Subsystem {
 	   *
 	   * @param moveValue The value to use for forwards/backwards
 	   * @param rotateValue The value to use for the rotate right/left
-	   * @param squaredInputs If set, decreases the sensitivity at low speeds
 	   */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 	    double leftMotorSpeed;
@@ -128,10 +131,7 @@ public class Drivetrain extends Subsystem {
 	    // cap values at -1.0 to 1.0
 	    moveValue = limit(moveValue);
 	    rotateValue = limit(rotateValue);
-	    // square inputs
-		moveValue = Math.abs(moveValue) * moveValue;
-	    rotateValue = Math.abs(rotateValue) * rotateValue;
-	    if (moveValue > 0.0)
+	    if (moveValue > 0.0) {
 	    	if (rotateValue > 0.0) {
 	    		leftMotorSpeed = moveValue - rotateValue;
 	    		rightMotorSpeed = Math.max(moveValue, rotateValue);
@@ -140,7 +140,8 @@ public class Drivetrain extends Subsystem {
 	    		leftMotorSpeed = Math.max(moveValue, -rotateValue);
 	    		rightMotorSpeed = moveValue + rotateValue;
 	    	}
-	    else
+	    }
+	    else {
 	    	if (rotateValue > 0.0) {
 	    		leftMotorSpeed = -Math.max(-moveValue, rotateValue);
 	    		rightMotorSpeed = moveValue + rotateValue;
@@ -149,6 +150,7 @@ public class Drivetrain extends Subsystem {
 	    		leftMotorSpeed = moveValue - rotateValue;
 	    		rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 	    	}
+	    }
 	    middleRight.set(ControlMode.PercentOutput, leftMotorSpeed);
 	    middleLeft.set(ControlMode.PercentOutput, rightMotorSpeed);
 	}

@@ -22,7 +22,7 @@ public class Left extends CommandGroup {
 		// LEFT
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'L') {
 			addSequential(new DriveToInch(138));
-			addSequential(new TurnToAngle(90, TurnToAngle.LONG));
+			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
 			addSequential(new SwitchDeliveryTimed(2));

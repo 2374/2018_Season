@@ -14,27 +14,29 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnToAngle extends Command {
 	private double targetAngleDegrees;
-	private boolean PIDVersion;
+	private PIDType PIDType;
 	
-	public static final boolean LONG = true;
-	public static final boolean SHORT = false;
+	public enum PIDType { LONG, SHORT }
 	
-	public TurnToAngle(double angle, boolean b) {
+	public TurnToAngle(double angle, PIDType type) {
 		requires(Robot.drive);
 		targetAngleDegrees = angle;
-		if (b)
-			PIDVersion = LONG;
-		else
-			PIDVersion = SHORT;
+		PIDType = type;
 	}
 	
 	@Override
 	protected void initialize() {
 		Robot.drive.resetGyro();
-		if (PIDVersion == LONG)
-			Robot.drive.setGyroPIDLong();
-		else if (PIDVersion == SHORT)
-			Robot.drive.setGyroPIDShort();
+		switch (PIDType) {
+			case LONG: {
+				Robot.drive.setGyroPIDLong();
+				break;
+			}
+			case SHORT: {
+				Robot.drive.setGyroPIDShort();
+				break;
+			}
+		}
 		Timer.delay(0.1);
 		Robot.drive.setGyroPIDSetPoint(targetAngleDegrees);
 		Robot.drive.enableGyroPID(true);
@@ -52,7 +54,7 @@ public class TurnToAngle extends Command {
 	
 	@Override
 	protected void end() {
-		// Robot.drive.enableGyroPID(false);
+		Robot.drive.enableGyroPID(false);
 		Robot.drive.arcadeDrive(0, 0);
 	}
 	

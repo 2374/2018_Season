@@ -15,23 +15,19 @@ public class Ejector extends Subsystem {
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
 	
-	// two scale speeds mean one side of the box gets an extra
-	// push, causing the box to start rotating
-	// these numbers are purely hypothetical, but 1.0 and 0.9-0.95
-	// are probably right
 	private static final double SCALE_SPEED_1 = 1.0;
 	private static final double SCALE_SPEED_2 = 0.95;
 	private static final double SCALE_RAMP_SPEED = 0.5;
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	
 	private static final double SWITCH_SPEED = 0.75;
-	private static final double LOW_SCALE_RAMP_TIME_S = 1;
 	
 	private static final double INTAKE_SPEED_FAST = 0.5;
 	
 	private static final double KICKER_SPEED = 0.5;
-	private static final double KICKER_TIME_S = 0.25;
-	private static final double KICKER_RAMP_TIME_S = 1.5;
+	private static final double KICKER_TIME_S = 0.3;
+	private static final double SCALE_KICKER_RAMP_TIME_S = 1.5;
+	private static final double LOW_SCALE_KICKER_TIME_S = 1;
 	
 	private static final double ELEVATION_SPEED = 0.3;
 	
@@ -58,14 +54,16 @@ public class Ejector extends Subsystem {
 	public void scaleForward() {
 		if (startTime == 0)
 			startTime = Timer.getFPGATimestamp();
+		
 		if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME_S)
 			setEjectorSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
 		else
 			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
-		if (Timer.getFPGATimestamp() - startTime > KICKER_RAMP_TIME_S) {
-			if (Timer.getFPGATimestamp() - startTime < KICKER_RAMP_TIME_S + KICKER_TIME_S)
+		
+		if (Timer.getFPGATimestamp() - startTime > SCALE_KICKER_RAMP_TIME_S) {
+			if (Timer.getFPGATimestamp() - startTime < SCALE_KICKER_RAMP_TIME_S + KICKER_TIME_S)
 				setKickerSpeed(SCALE_SPEED_1);
-			else if (Timer.getFPGATimestamp() - startTime < KICKER_RAMP_TIME_S + 2 * KICKER_TIME_S)
+			else if (Timer.getFPGATimestamp() - startTime < SCALE_KICKER_RAMP_TIME_S + 2 * KICKER_TIME_S)
 				setKickerSpeed(KICKER_SPEED);
 			else
 				setKickerSpeed(0);
@@ -81,11 +79,13 @@ public class Ejector extends Subsystem {
 	public void lowScaleForward() {
 		if (startTime == 0)
 			startTime = Timer.getFPGATimestamp();
+		
 		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
-		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_RAMP_TIME_S) {
-			if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_RAMP_TIME_S + KICKER_TIME_S)
+		
+		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_KICKER_TIME_S) {
+			if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_KICKER_TIME_S + KICKER_TIME_S)
 				setKickerSpeed(SCALE_SPEED_1);
-			else if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_RAMP_TIME_S + 2 * KICKER_TIME_S)
+			else if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_KICKER_TIME_S + 2 * KICKER_TIME_S)
 				setKickerSpeed(KICKER_SPEED);
 			else
 				setKickerSpeed(0);

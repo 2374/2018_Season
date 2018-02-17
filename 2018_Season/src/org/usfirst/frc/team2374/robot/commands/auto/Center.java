@@ -21,18 +21,18 @@ public class Center extends CommandGroup {
 		requires(Robot.drive);
 		// RIGHT SIDE
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'R') {
-			addSequential(new TurnToAngle(35, TurnToAngle.SHORT));
+			addSequential(new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
 			addSequential(new DriveToInch(134));
-			addSequential(new TurnToAngle(-35, TurnToAngle.SHORT));
+			addSequential(new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
 			addSequential(new SwitchDeliveryTimed(2));
 		// LEFT SIDE
 		} 
 		else if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'L') {
-			addSequential(new TurnToAngle(-35, TurnToAngle.SHORT));
+			addSequential(new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));
 			addSequential(new DriveToInch(134));
-			addSequential(new TurnToAngle(35, TurnToAngle.SHORT));
+			addSequential(new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
 			addSequential(new SwitchDeliveryTimed(2));

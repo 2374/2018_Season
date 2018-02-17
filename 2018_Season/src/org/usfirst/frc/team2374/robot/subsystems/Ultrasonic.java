@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Ultrasonic extends Subsystem{
 	private AnalogInput ultrasonicSensor;
 	
+	private static final double VOLTS_TO_IN = 512/5;
+	
 	public static final double TOLERANCE_IN = 10;
 	public static final double MIN_DISTANCE_IN = 6.0;
 	
@@ -36,6 +38,6 @@ public class Ultrasonic extends Subsystem{
 	 * @param volts the voltage to convert
 	 * @return inches
 	 */
-	private double convertVoltageToDistance(double volts)  { return volts * (512/5); }
+	private double convertVoltageToDistance(double volts)  { return volts * VOLTS_TO_IN; }
 
 }

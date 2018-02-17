@@ -53,14 +53,14 @@ public class Robot extends IterativeRobot {
 		eject = new Ejector();
 		oi = new OI();
 		ultra = new Ultrasonic();
-		chooser.addDefault("Turn to 90", new TurnToAngle(90, TurnToAngle.LONG));
-		chooser.addObject("Turn to -90", new TurnToAngle(-90, TurnToAngle.LONG));
-		chooser.addObject("Turn to 70", new TurnToAngle(70, TurnToAngle.LONG));
-		chooser.addObject("Turn to -70", new TurnToAngle(-70, TurnToAngle.LONG));
-		chooser.addObject("Turn to 45", new TurnToAngle(45, TurnToAngle.SHORT));
-		chooser.addObject("Turn to -45", new TurnToAngle(-45, TurnToAngle.SHORT));
-		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.SHORT));
-		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.SHORT));
+		chooser.addDefault("Turn to 90", new TurnToAngle(90, TurnToAngle.PIDType.LONG));
+		chooser.addObject("Turn to -90", new TurnToAngle(-90, TurnToAngle.PIDType.LONG));
+		chooser.addObject("Turn to 70", new TurnToAngle(70, TurnToAngle.PIDType.LONG));
+		chooser.addObject("Turn to -70", new TurnToAngle(-70, TurnToAngle.PIDType.LONG));
+		chooser.addObject("Turn to 45", new TurnToAngle(45, TurnToAngle.PIDType.SHORT));
+		chooser.addObject("Turn to -45", new TurnToAngle(-45, TurnToAngle.PIDType.SHORT));
+		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
+		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));
 		
 		chooser.addObject("Drive 15 ft", new DriveToInch(180));
 		chooser.addObject("Drive 10 ft", new DriveToInch(120));
