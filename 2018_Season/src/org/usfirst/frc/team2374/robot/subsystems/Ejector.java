@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Ejector extends Subsystem {
 	private Victor eject1, eject2;
 	private Spark kicker1, kicker2, elev1, elev2;
-	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
+	private DigitalInput scaleLimitSwitch;
 	private double startTime = 0;
 	
 	private static final double SCALE_SPEED_1 = 1.0;
@@ -39,7 +40,6 @@ public class Ejector extends Subsystem {
 		elev1 = new Spark(RobotMap.SPARK_ELEVATION_1);
 		elev2 = new Spark(RobotMap.SPARK_ELEVATION_2);
 		scaleLimitSwitch = new DigitalInput(RobotMap.SCALE_LIMIT_SWITCH);
-		intakeLimitSwitch = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	}
 
 	@Override
@@ -155,20 +155,18 @@ public class Ejector extends Subsystem {
 			elev1.setSpeed(ELEVATION_SPEED);
 			elev2.setSpeed(-ELEVATION_SPEED);
 		}
-		else
+		else {
+			SmartDashboard.putString("Scale LS Down", "Scale LS Down");
 			stopRotation();
+		}
 	}
 	
 	/**
 	 * Called when lowering the ejector for cube intake
 	 */
 	public void angleDown() {
-		if (!atIntakePos()) {
-			elev1.setSpeed(-ELEVATION_SPEED);
-			elev2.setSpeed(ELEVATION_SPEED);
-		}
-		else
-			stopRotation();
+		elev1.setSpeed(-ELEVATION_SPEED);
+		elev2.setSpeed(ELEVATION_SPEED);	
 	}
 	
 	/**
@@ -183,12 +181,6 @@ public class Ejector extends Subsystem {
 	 * Called when checking ejector angle
 	 * @return true if at scale angle, false otherwise
 	 */
-	public boolean atScalePos() { return !scaleLimitSwitch.get(); }
-	
-	/**
-	 * Called when checking ejector angle
-	 * @return true if at intake angle, false otherwise
-	 */
-	public boolean atIntakePos() { return !intakeLimitSwitch.get(); }
+	public boolean atScalePos() { return scaleLimitSwitch.get(); }
 	
 }

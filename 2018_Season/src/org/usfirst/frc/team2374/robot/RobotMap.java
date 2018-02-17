@@ -41,7 +41,6 @@ public class RobotMap {
 	public static final int TALON_ARM = 8;
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 0;
-	public static final int INTAKE_LIMIT_SWITCH = 1;
 	// Analog
 	public static final int ULTRASONIC = 0;
 }
