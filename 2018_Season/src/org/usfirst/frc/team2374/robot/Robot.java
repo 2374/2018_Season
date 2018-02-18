@@ -3,6 +3,9 @@ package org.usfirst.frc.team2374.robot;
 
 import org.usfirst.frc.team2374.robot.commands.DriveToInch;
 import org.usfirst.frc.team2374.robot.commands.DriveToTargetUltrasonic;
+import org.usfirst.frc.team2374.robot.commands.EjectorUp;
+import org.usfirst.frc.team2374.robot.commands.ScaleDeliveryTimed;
+import org.usfirst.frc.team2374.robot.commands.SwitchDeliveryTimed;
 import org.usfirst.frc.team2374.robot.commands.TurnToAngle;
 import org.usfirst.frc.team2374.robot.commands.auto.RunCenter;
 import org.usfirst.frc.team2374.robot.commands.auto.RunLeft;
@@ -53,6 +56,7 @@ public class Robot extends IterativeRobot {
 		eject = new Ejector();
 		oi = new OI();
 		ultra = new Ultrasonic();
+		
 		chooser.addDefault("Turn to 90", new TurnToAngle(90, TurnToAngle.PIDType.LONG));
 		chooser.addObject("Turn to -90", new TurnToAngle(-90, TurnToAngle.PIDType.LONG));
 		chooser.addObject("Turn to 70", new TurnToAngle(70, TurnToAngle.PIDType.LONG));
@@ -62,7 +66,11 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
 		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));
 		
-		chooser.addObject("Drive 15 ft", new DriveToInch(180));
+		chooser.addObject("Ejector up", new EjectorUp(5));
+		chooser.addObject("Switch timed", new SwitchDeliveryTimed(3));
+		chooser.addObject("Scale timed", new ScaleDeliveryTimed(3));
+		
+		chooser.addObject("Drive 12 ft", new DriveToInch(144));
 		chooser.addObject("Drive 10 ft", new DriveToInch(120));
 		chooser.addObject("Drive 5 ft", new DriveToInch(60));
 		

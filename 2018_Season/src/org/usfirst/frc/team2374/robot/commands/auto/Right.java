@@ -28,6 +28,6 @@ public class Right extends CommandGroup{
 		} 
 		// NONE
 		else	
-			addSequential(new DriveToInch(110));
+			addSequential(new DriveToInch(120));
 	}
 }

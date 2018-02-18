@@ -21,7 +21,7 @@ public class ScaleDeliveryTimed extends TimedCommand {
 	protected void initialize() { Robot.eject.scaleForward(); }
 	
 	@Override
-	protected void execute() { }
+	protected void execute() { Robot.eject.scaleForward(); }
 
 	@Override
 	protected boolean isFinished() { return super.isTimedOut(); }

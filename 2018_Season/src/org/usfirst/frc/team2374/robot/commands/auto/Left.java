@@ -21,7 +21,7 @@ public class Left extends CommandGroup {
 		requires(Robot.drive);
 		// LEFT
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'L') {
-			addSequential(new DriveToInch(138));
+			addSequential(new DriveToInch(132));
 			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
@@ -29,6 +29,6 @@ public class Left extends CommandGroup {
 		} 
 		// NONE
 		else
-			addSequential(new DriveToInch(110));
+			addSequential(new DriveToInch(120));
 	}
 }

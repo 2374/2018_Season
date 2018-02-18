@@ -21,20 +21,19 @@ public class ScaleLeft extends CommandGroup {
 		requires(Robot.drive);
 		
 		if (Robot.autoGameData.charAt(1) == 'L') {
-			addSequential(new DriveToInch(144));
-			addSequential(new DriveToInch(144));
+			addSequential(new DriveToInch(141));
+			addSequential(new DriveToInch(141));
 			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
 			
 			addSequential(new EjectorUp(5));
 			addSequential(new ScaleDeliveryTimed(3));
 		} 
-		else {	
-			addSequential(new DriveToInch(210));
-			addSequential(new DriveToInch(105));
-			addSequential(new DriveToInch(105));
+		else {
+			addSequential(new DriveToInch(102));
+			addSequential(new DriveToInch(102));
 			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
-			addSequential(new DriveToInch(90));
-			addSequential(new DriveToInch(90));
+			addSequential(new DriveToInch(87));
+			addSequential(new DriveToInch(87));
 			addSequential(new TurnToAngle(-90, TurnToAngle.PIDType.LONG));
 			addSequential(new DriveToInch(78));
 			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
