@@ -4,18 +4,20 @@ import org.usfirst.frc.team2374.robot.RobotMap;
 import org.usfirst.frc.team2374.robot.commands.ClimberTeleop;
 
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climber extends Subsystem {
-	private Talon climb1, climb2, arm;
+	private Talon climb1, climb2;
+	private Victor arm;
 	
 	private static final double CLIMB_SPEED = 1;
-	private static final double ARM_SPEED = 1;
+	private static final double ARM_SPEED = 0.25;
 	
 	public Climber() {
 		climb1 = new Talon(RobotMap.TALON_CLIMBER_1);
 		climb2 = new Talon(RobotMap.TALON_CLIMBER_2);
-		arm = new Talon(RobotMap.TALON_ARM);
+		arm = new Victor(RobotMap.VICTOR_ARM);
 	}
 	
 	@Override
@@ -40,10 +42,15 @@ public class Climber extends Subsystem {
 	/**
 	 * Called when raising climber
 	 */
-	public void raiseClimber() { arm.setSpeed(ARM_SPEED); }
+	public void raiseClimber() { arm.setSpeed(-ARM_SPEED); }
 	
 	/**
 	 * Called when lowering climber
+	 */
+	public void lowerClimber() { arm.setSpeed(ARM_SPEED); }
+	
+	/**
+	 * Called when climber is in position
 	 */
 	public void armOff() { arm.setSpeed(0); }
 
