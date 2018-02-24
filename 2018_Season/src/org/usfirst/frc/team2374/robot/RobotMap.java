@@ -38,7 +38,7 @@ public class RobotMap {
 	public static final int SPARK_ELEVATION_2 = 5;
 	public static final int TALON_CLIMBER_1 = 6;
 	public static final int TALON_CLIMBER_2 = 7;
-	public static final int TALON_FAN = 8;
+	public static final int TALON_ARM = 8;
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 1;
 	public static final int INTAKE_LIMIT_SWITCH = 0;

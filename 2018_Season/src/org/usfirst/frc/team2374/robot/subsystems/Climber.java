@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
 	private Talon climb1, climb2, arm;
 	
+	private static final double CLIMB_SPEED = 1;
+	private static final double ARM_SPEED = 1;
+	
 	public Climber() {
 		climb1 = new Talon(RobotMap.TALON_CLIMBER_1);
 		climb2 = new Talon(RobotMap.TALON_CLIMBER_2);
-		arm = new Talon(RobotMap.TALON_FAN);
+		arm = new Talon(RobotMap.TALON_ARM);
 	}
 	
 	@Override
@@ -22,8 +25,8 @@ public class Climber extends Subsystem {
 	 * Called when starting to climb
 	 */
 	public void climbUp() {
-		climb1.setSpeed(1);
-		climb2.setSpeed(1);
+		climb1.setSpeed(CLIMB_SPEED);
+		climb2.setSpeed(CLIMB_SPEED);
 	}
 	
 	/**
@@ -35,13 +38,13 @@ public class Climber extends Subsystem {
 	}
 	
 	/**
-	 * Called when inflating tube
+	 * Called when raising climber
 	 */
-	public void fan() { arm.setSpeed(1); }
+	public void raiseClimber() { arm.setSpeed(ARM_SPEED); }
 	
 	/**
-	 * Called when deflating tube
+	 * Called when lowering climber
 	 */
-	public void fanOff() { arm.setSpeed(0); }
+	public void armOff() { arm.setSpeed(0); }
 
 }
