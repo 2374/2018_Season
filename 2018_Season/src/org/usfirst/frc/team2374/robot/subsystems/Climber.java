@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climber extends Subsystem {
-	private Talon climb1, climb2, fan;
+	private Talon climb1, climb2, arm;
 	
 	public Climber() {
 		climb1 = new Talon(RobotMap.TALON_CLIMBER_1);
 		climb2 = new Talon(RobotMap.TALON_CLIMBER_2);
-		fan = new Talon(RobotMap.TALON_FAN);
+		arm = new Talon(RobotMap.TALON_FAN);
 	}
 	
 	@Override
@@ -37,11 +37,11 @@ public class Climber extends Subsystem {
 	/**
 	 * Called when inflating tube
 	 */
-	public void fan() { fan.setSpeed(1); }
+	public void fan() { arm.setSpeed(1); }
 	
 	/**
 	 * Called when deflating tube
 	 */
-	public void fanOff() { fan.setSpeed(0); }
+	public void fanOff() { arm.setSpeed(0); }
 
 }
