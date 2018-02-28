@@ -24,7 +24,7 @@ public class DriveToTargetUltrasonic extends Command {
 	@Override
 	protected void initialize() {
 		Robot.drive.resetGyro();
-		Robot.drive.setGyroPIDLong();
+		Robot.drive.setDrivePID();
 		Timer.delay(0.1);
 		Robot.drive.setGyroPIDSetPoint(0);
 		Robot.drive.enableGyroPID(true);
