@@ -24,7 +24,7 @@ public class Ejector extends Subsystem {
 	private static final double SWITCH_SPEED = 0.65;
 	
 	private static final double INTAKE_SPEED_FAST = 0.5;
-	
+	 
 	private static final double KICKER_SPEED = 0.5;
 	private static final double KICKER_TIME_S = 0.3;
 	private static final double SCALE_KICKER_RAMP_TIME_S = 1.5;
