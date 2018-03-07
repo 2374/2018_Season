@@ -65,15 +65,15 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
 		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));*/
 		
-		chooser.addObject("Ejector up", new EjectorUp(5));
+		/*chooser.addObject("Ejector up", new EjectorUp(5));
 		chooser.addObject("Switch timed", new SwitchDeliveryTimed(3));
-		chooser.addObject("Scale timed", new ScaleDeliveryTimed(3));
+		chooser.addObject("Scale timed", new ScaleDeliveryTimed(3));*/
 		
-		chooser.addObject("Drive 12 ft", new DriveToInch(144));
+		//chooser.addObject("Drive 12 ft", new DriveToInch(144));
 		chooser.addObject("Drive 10 ft", new DriveToInch(120));
-		chooser.addObject("Drive 5 ft", new DriveToInch(60));
+		//chooser.addObject("Drive 5 ft", new DriveToInch(60));
 		
-		chooser.addObject("Drive to target with ultrasonic", new DriveToTargetUltrasonic());
+		//chooser.addObject("Drive to target with ultrasonic", new DriveToTargetUltrasonic());
 		
 		chooser.addObject("Right", new RunRight());
 		chooser.addObject("Center", new RunCenter());
@@ -123,10 +123,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		// SmartDashboard.putString("Auto Game Data", autoGameData);
-		SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
-		SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
+		//SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
+		//SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
 		SmartDashboard.putNumber("ultra inches", Robot.ultra.getDistanceInches());
-		SmartDashboard.putNumber("angle", Robot.drive.getAngle());
+		//SmartDashboard.putNumber("angle", Robot.drive.getAngle());
 	}
 
 	@Override
@@ -147,10 +147,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
-		SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
+		//SmartDashboard.putNumber("left encoder inches", Robot.drive.getLeftDistanceInches());
+		//SmartDashboard.putNumber("right encoder inches", Robot.drive.getRightDistanceInches());
 		SmartDashboard.putNumber("ultra inches", Robot.ultra.getDistanceInches());
-		SmartDashboard.putNumber("angle", Robot.drive.getAngle());
+		//SmartDashboard.putNumber("angle", Robot.drive.getAngle());
 	}
 
 	/**

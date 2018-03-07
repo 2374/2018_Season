@@ -31,6 +31,7 @@ public class Ejector extends Subsystem {
 	private static final double LOW_SCALE_KICKER_TIME_S = 1;
 	
 	private static final double ELEVATION_SPEED = 0.425;
+	private static final double ELEVATION_SPEED_LOW = 0.4;
 	
 	public Ejector() {
 		eject1 = new Victor(RobotMap.VICTOR_EJECTOR_1);
@@ -165,6 +166,26 @@ public class Ejector extends Subsystem {
 	public void angleDown() {
 		elev1.setSpeed(-ELEVATION_SPEED);
 		elev2.setSpeed(ELEVATION_SPEED);	
+	}
+	
+	/**
+	 * Called when raising the ejector slowly
+	 */
+	public void angleUpSlow(boolean auto) {
+		if (!atScalePos() || !auto) {
+			elev1.setSpeed(ELEVATION_SPEED_LOW);
+			elev2.setSpeed(-ELEVATION_SPEED_LOW);
+		}
+		else
+			stopRotation();
+	}
+	
+	/**
+	 * Called when lowering the ejector slowly
+	 */
+	public void angleDownSlow() {
+		elev1.setSpeed(-ELEVATION_SPEED_LOW);
+		elev2.setSpeed(ELEVATION_SPEED_LOW);	
 	}
 	
 	/**
