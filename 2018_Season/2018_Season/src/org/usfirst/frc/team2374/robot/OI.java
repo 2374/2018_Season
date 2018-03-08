@@ -39,6 +39,10 @@ public class OI {
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
 	
+	public boolean getButtonM1() { return driver.getRawButton(RobotMap.rsButtonM1); }
+	
+	public boolean getButtonM2() { return driver.getRawButton(RobotMap.rsButtonM2); }
+	
 	public double getPOV() { return driver.getPOV(0); }
 	
 	/**

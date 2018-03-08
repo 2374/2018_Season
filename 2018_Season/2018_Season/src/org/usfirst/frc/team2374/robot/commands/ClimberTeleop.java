@@ -26,7 +26,7 @@ public class ClimberTeleop extends Command {
 		else
 			Robot.climb.armOff();
 		
-		if (Robot.oi.getButtonStart()) {
+		if (Robot.oi.getButtonX()) {
 			Robot.climb.climbUp();
 			Robot.climb.armOff();
 		}

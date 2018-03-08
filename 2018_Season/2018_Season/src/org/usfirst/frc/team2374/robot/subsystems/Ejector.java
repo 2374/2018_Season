@@ -12,26 +12,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Ejector extends Subsystem {
 	private Victor eject1, eject2;
 	private Spark kicker1, kicker2, elev1, elev2;
-	private DigitalInput scaleLimitSwitch;
+	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
 	
 	private static final double SCALE_SPEED_1 = 0.87;
 	private static final double SCALE_SPEED_2 = 0.9;
 	private static final double SCALE_SPEED_LOW = 0.83;
 	private static final double SCALE_RAMP_SPEED = 0.5;
+	
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	
 	private static final double SWITCH_SPEED = 0.65;
 	
-	private static final double INTAKE_SPEED_FAST = 0.5;
+	private static final double INTAKE_SPEED = 0.5;
 	 
-	private static final double KICKER_SPEED = 0.5;
-	private static final double KICKER_TIME_S = 0.3;
 	private static final double SCALE_KICKER_RAMP_TIME_S = 1.5;
 	private static final double LOW_SCALE_KICKER_TIME_S = 1;
 	
 	private static final double ELEVATION_SPEED = 0.425;
 	private static final double ELEVATION_SPEED_LOW = 0.4;
+	private static final double ELEVATION_SPEED_STALL = 0.12;
 	
 	public Ejector() {
 		eject1 = new Victor(RobotMap.VICTOR_EJECTOR_1);
@@ -41,6 +41,7 @@ public class Ejector extends Subsystem {
 		elev1 = new Spark(RobotMap.SPARK_ELEVATION_1);
 		elev2 = new Spark(RobotMap.SPARK_ELEVATION_2);
 		scaleLimitSwitch = new DigitalInput(RobotMap.SCALE_LIMIT_SWITCH);
+		intakeLimitSwitch = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	}
 
 	@Override
@@ -61,14 +62,8 @@ public class Ejector extends Subsystem {
 		else
 			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
 		
-		if (Timer.getFPGATimestamp() - startTime > SCALE_KICKER_RAMP_TIME_S) {
-			//if (Timer.getFPGATimestamp() - startTime < SCALE_KICKER_RAMP_TIME_S + KICKER_TIME_S)
-				setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
-			/*else if (Timer.getFPGATimestamp() - startTime < SCALE_KICKER_RAMP_TIME_S + 2 * KICKER_TIME_S)
-				setKickerSpeed(KICKER_SPEED);
-			else
-				setKickerSpeed(0);*/
-		}
+		if (Timer.getFPGATimestamp() - startTime > SCALE_KICKER_RAMP_TIME_S)
+			setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
 		else
 			setKickerSpeed(0, 0);		
 	}
@@ -83,14 +78,8 @@ public class Ejector extends Subsystem {
 		
 		setEjectorSpeed(SCALE_SPEED_LOW, SCALE_SPEED_LOW);
 		
-		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_KICKER_TIME_S) {
-			//if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_KICKER_TIME_S + KICKER_TIME_S)
-				setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
-			/*else if (Timer.getFPGATimestamp() - startTime < LOW_SCALE_KICKER_TIME_S + 2 * KICKER_TIME_S)
-				setKickerSpeed(KICKER_SPEED);
-			else
-				setKickerSpeed(0);*/
-		}
+		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_KICKER_TIME_S)
+			setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
 		else
 			setKickerSpeed(0, 0);		
 	}
@@ -108,8 +97,8 @@ public class Ejector extends Subsystem {
 	 * Called when intaking cubes
 	 */
 	public void intake() {
-		setEjectorSpeed(-INTAKE_SPEED_FAST, -INTAKE_SPEED_FAST);
-		setKickerSpeed(-INTAKE_SPEED_FAST, -INTAKE_SPEED_FAST);
+		setEjectorSpeed(-INTAKE_SPEED, -INTAKE_SPEED);
+		setKickerSpeed(-INTAKE_SPEED, -INTAKE_SPEED);
 		startTime = 0;
 		
 	}
@@ -151,8 +140,8 @@ public class Ejector extends Subsystem {
 	/**
 	 * Called when raising the ejector for delivery to scale
 	 */
-	public void angleUp(boolean auto) {
-		if (!atScalePos() || !auto) {
+	public void angleUp(boolean useLimitSwitch) {
+		if (!atScalePos() || !useLimitSwitch) {
 			elev1.setSpeed(ELEVATION_SPEED);
 			elev2.setSpeed(-ELEVATION_SPEED);
 		}
@@ -169,23 +158,35 @@ public class Ejector extends Subsystem {
 	}
 	
 	/**
-	 * Called when raising the ejector slowly
+	 * Called when raising the ejector for human player station
 	 */
-	public void angleUpSlow(boolean auto) {
-		if (!atScalePos() || !auto) {
+	public void angleUpSlow() {
+		//if (!atIntakePos()) {
 			elev1.setSpeed(ELEVATION_SPEED_LOW);
 			elev2.setSpeed(-ELEVATION_SPEED_LOW);
-		}
-		else
-			stopRotation();
+		//}
+		//else 
+			//angleStall();
 	}
 	
 	/**
-	 * Called when lowering the ejector slowly
+	 * Called when lowering the ejector for human player station
 	 */
 	public void angleDownSlow() {
-		elev1.setSpeed(-ELEVATION_SPEED_LOW);
-		elev2.setSpeed(ELEVATION_SPEED_LOW);	
+		//if (!atIntakePos()) {
+			elev1.setSpeed(-ELEVATION_SPEED_LOW);
+			elev2.setSpeed(ELEVATION_SPEED_LOW);
+		//}
+		//else 
+			//angleStall();
+	}
+	
+	/**
+	 * Called when stalling the motors
+	 */
+	public void angleStall() {
+		elev1.setSpeed(ELEVATION_SPEED_STALL);
+		elev2.setSpeed(-ELEVATION_SPEED_STALL);
 	}
 	
 	/**
@@ -201,5 +202,11 @@ public class Ejector extends Subsystem {
 	 * @return true if at scale angle, false otherwise
 	 */
 	public boolean atScalePos() { return scaleLimitSwitch.get(); }
+	
+	/**
+	 * Called when checking ejector angle
+	 * @return true if at scale angle, false otherwise
+	 */
+	public boolean atIntakePos() { return intakeLimitSwitch.get(); }
 	
 }

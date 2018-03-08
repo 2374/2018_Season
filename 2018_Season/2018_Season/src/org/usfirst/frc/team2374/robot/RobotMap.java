@@ -22,6 +22,8 @@ public class RobotMap {
 	public static int rsRightBumper = 6;
 	public static int rsButtonBack = 7;
 	public static int rsButtonStart = 8;
+	public static int rsButtonM1 = 9;
+	public static int rsButtonM2 = 10;
 	// CAN
 	public static final int TALON_DRIVE_FRONT_RIGHT = 5;
 	public static final int TALON_DRIVE_MIDDLE_RIGHT = 2;
@@ -41,6 +43,7 @@ public class RobotMap {
 	public static final int VICTOR_ARM = 8;
 	// DIO
 	public static final int SCALE_LIMIT_SWITCH = 0;
+	public static final int INTAKE_LIMIT_SWITCH = 1;
 	// Analog
 	public static final int ULTRASONIC = 0;
 }

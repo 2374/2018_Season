@@ -47,13 +47,12 @@ public class EjectorTeleop extends Command {
 			Robot.eject.angleDown();
 		else if (Robot.oi.getRightBumper())
 			Robot.eject.angleUp(false);
-		else
-			Robot.eject.stopRotation();
-		
-		if (Robot.oi.getButtonX())
-			Robot.eject.angleDown();
 		else if (Robot.oi.getButtonY())
-			Robot.eject.angleUp(false);
+			Robot.eject.angleStall();
+		else if (Robot.oi.getButtonM1())
+			Robot.eject.angleDownSlow();
+		else if (Robot.oi.getButtonM2())
+			Robot.eject.angleUpSlow();
 		else
 			Robot.eject.stopRotation();
 	}

@@ -27,27 +27,7 @@ public class Left extends CommandGroup {
 			addSequential(new EjectorUp(5));
 			addSequential(new SwitchDeliveryTimed(2));
 		} 
-		// Go for scale
-		else if (Robot.autoGameData.charAt(1) == 'L') {
-			addSequential(new DriveToInch(141));
-			addSequential(new DriveToInch(141));
-			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG, 5));
-			
-			addSequential(new EjectorUp(5));
-			addSequential(new ScaleDeliveryTimed(3));
-		} 
-		/*else {
-			addSequential(new DriveToInch(102));
-			addSequential(new DriveToInch(102));
-			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
-			addSequential(new DriveToInch(87));
-			addSequential(new DriveToInch(87));
-			addSequential(new TurnToAngle(-90, TurnToAngle.PIDType.LONG));
-			addSequential(new DriveToInch(78));
-			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG));
-			
-			addSequential(new EjectorUp(5));
-			//addSequential(new ScaleDeliveryTimed(3));
-		}*/
+		else	
+			addSequential(new DriveToInch(120));
 	}
 }
