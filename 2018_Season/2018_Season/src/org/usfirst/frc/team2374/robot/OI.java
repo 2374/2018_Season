@@ -36,12 +36,20 @@ public class OI {
 	public boolean getRightBumper() { return driver.getRawButton(RobotMap.rsRightBumper); }
 	
 	public boolean getButtonBack() { return driver.getRawButton(RobotMap.rsButtonBack); }
+
+	public boolean getButtonBackPressed() { return driver.getRawButtonPressed(RobotMap.rsButtonBack); }
 	
 	public boolean getButtonStart() { return driver.getRawButton(RobotMap.rsButtonStart); }
+
+	public boolean getButtonStartPressed() { return driver.getRawButtonPressed(RobotMap.rsButtonStart); }
 	
 	public boolean getButtonM1() { return driver.getRawButton(RobotMap.rsButtonM1); }
 	
+	public boolean getButtonM1Pressed() { return driver.getRawButtonPressed(RobotMap.rsButtonM1); }
+	
 	public boolean getButtonM2() { return driver.getRawButton(RobotMap.rsButtonM2); }
+
+	public boolean getButtonM2Pressed() { return driver.getRawButtonPressed(RobotMap.rsButtonM2); }
 	
 	public double getPOV() { return driver.getPOV(0); }
 	

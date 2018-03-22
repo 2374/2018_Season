@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Ejector extends Subsystem {
 	private Victor eject1, eject2;
@@ -15,10 +16,11 @@ public class Ejector extends Subsystem {
 	private DigitalInput scaleLimitSwitch, intakeLimitSwitch;
 	private double startTime = 0;
 	
-	private static final double SCALE_SPEED_1 = 0.87;
-	private static final double SCALE_SPEED_2 = 0.9;
-	private static final double SCALE_SPEED_LOW = 0.83;
+	private static double scaleSpeed = 0.975;
+	private static double scaleSpeedLow = 0.85;
+	
 	private static final double SCALE_RAMP_SPEED = 0.5;
+	private static final double KICKER_SPEED = 1;
 	
 	private static final double SCALE_RAMP_TIME_S = 0.25;
 	
@@ -30,8 +32,6 @@ public class Ejector extends Subsystem {
 	private static final double LOW_SCALE_KICKER_TIME_S = 1;
 	
 	private static final double ELEVATION_SPEED = 0.425;
-	private static final double ELEVATION_SPEED_LOW = 0.4;
-	private static final double ELEVATION_SPEED_STALL = 0.12;
 	
 	public Ejector() {
 		eject1 = new Victor(RobotMap.VICTOR_EJECTOR_1);
@@ -48,6 +48,50 @@ public class Ejector extends Subsystem {
 	protected void initDefaultCommand() { setDefaultCommand(new EjectorTeleop()); }
 	
 	/**
+	 * Called during the game when raising speed for mid and high scale (max speed is 1)
+	 */
+	public void scaleSpeedUp() { 
+		scaleSpeed += 0.25;
+		if (scaleSpeed > 1)
+			scaleSpeed = 1;
+	}
+	
+	/**
+	 * Called during the game when lowering speed for mid and high scale (min speed is 0.85)
+	 */
+	public void scaleSpeedDown() {
+		scaleSpeed -= 0.25;
+		if (scaleSpeed < 0.85)
+			scaleSpeed = 0.85;
+	}
+	
+	/**
+	 * Called during the game when raising speed for low scale (max speed is 0.9)
+	 */
+	public void scaleSpeedLowUp() { 
+		scaleSpeedLow += 0.25;
+		if (scaleSpeedLow > 0.9)
+			scaleSpeedLow = 0.9;
+	}
+	
+	/**
+	 * Called during the game when lowering speed for low scale (min speed is 0.75)
+	 */
+	public void scaleSpeedLowDown() {
+		scaleSpeedLow -= 0.25;
+		if (scaleSpeedLow < 0.75)
+			scaleSpeedLow = 0.75;
+	}
+	
+	/**
+	 * Displays scaleSpeed and scaleSpeedLow on SmartDashboard
+	 */
+	public void displayScaleSpeed() {
+		SmartDashboard.putNumber("scale speed", scaleSpeed);
+		SmartDashboard.putNumber("scale speed low", scaleSpeedLow);
+	}
+	
+	/**
 	 * Called when delivering to scale, sets the left and right flywheels
 	 * to slightly different speeds in order to give the cube some spin
 	 * and sets the flywheels to an intermediate speed for a fraction of
@@ -58,12 +102,12 @@ public class Ejector extends Subsystem {
 			startTime = Timer.getFPGATimestamp();
 		
 		if (Timer.getFPGATimestamp() - startTime > SCALE_RAMP_TIME_S)
-			setEjectorSpeed(SCALE_SPEED_1, SCALE_SPEED_1);
+			setEjectorSpeed(scaleSpeed, scaleSpeed);
 		else
 			setEjectorSpeed(SCALE_RAMP_SPEED, SCALE_RAMP_SPEED);
 		
 		if (Timer.getFPGATimestamp() - startTime > SCALE_KICKER_RAMP_TIME_S)
-			setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
+			setKickerSpeed(KICKER_SPEED, KICKER_SPEED);
 		else
 			setKickerSpeed(0, 0);		
 	}
@@ -76,10 +120,10 @@ public class Ejector extends Subsystem {
 		if (startTime == 0)
 			startTime = Timer.getFPGATimestamp();
 		
-		setEjectorSpeed(SCALE_SPEED_LOW, SCALE_SPEED_LOW);
+		setEjectorSpeed(scaleSpeedLow, scaleSpeedLow);
 		
 		if (Timer.getFPGATimestamp() - startTime > LOW_SCALE_KICKER_TIME_S)
-			setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_2);
+			setKickerSpeed(KICKER_SPEED, KICKER_SPEED);
 		else
 			setKickerSpeed(0, 0);		
 	}
@@ -89,7 +133,7 @@ public class Ejector extends Subsystem {
 	 */
 	public void switchForward() {
 		setEjectorSpeed(SWITCH_SPEED, SWITCH_SPEED);
-		setKickerSpeed(SCALE_SPEED_1, SCALE_SPEED_1);
+		setKickerSpeed(scaleSpeed, scaleSpeed);
 		startTime = 0;
 	}
 	
@@ -121,8 +165,8 @@ public class Ejector extends Subsystem {
 	 * @param speed2 right flywheel speed
 	 */
 	private void setEjectorSpeed(double speed1, double speed2) {
-		eject1.setSpeed(-speed1);
-		eject2.setSpeed(-speed2);
+		eject1.setSpeed(speed1);
+		eject2.setSpeed(speed2);
 	}
 	
 	/**
@@ -155,38 +199,6 @@ public class Ejector extends Subsystem {
 	public void angleDown() {
 		elev1.setSpeed(-ELEVATION_SPEED);
 		elev2.setSpeed(ELEVATION_SPEED);	
-	}
-	
-	/**
-	 * Called when raising the ejector for human player station
-	 */
-	public void angleUpSlow() {
-		//if (!atIntakePos()) {
-			elev1.setSpeed(ELEVATION_SPEED_LOW);
-			elev2.setSpeed(-ELEVATION_SPEED_LOW);
-		//}
-		//else 
-			//angleStall();
-	}
-	
-	/**
-	 * Called when lowering the ejector for human player station
-	 */
-	public void angleDownSlow() {
-		//if (!atIntakePos()) {
-			elev1.setSpeed(-ELEVATION_SPEED_LOW);
-			elev2.setSpeed(ELEVATION_SPEED_LOW);
-		//}
-		//else 
-			//angleStall();
-	}
-	
-	/**
-	 * Called when stalling the motors
-	 */
-	public void angleStall() {
-		elev1.setSpeed(ELEVATION_SPEED_STALL);
-		elev2.setSpeed(-ELEVATION_SPEED_STALL);
 	}
 	
 	/**

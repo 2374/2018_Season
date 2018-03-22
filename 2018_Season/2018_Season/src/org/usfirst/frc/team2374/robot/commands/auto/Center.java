@@ -22,7 +22,7 @@ public class Center extends CommandGroup {
 		// RIGHT SIDE
 		if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'R') {
 			addSequential(new TurnToAngle(35, TurnToAngle.PIDType.SHORT, 5));
-			addSequential(new DriveToInch(85));
+			addSequential(new DriveToInch(80));
 			addSequential(new TurnToAngle(-35, TurnToAngle.PIDType.SHORT, 5));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
@@ -31,9 +31,9 @@ public class Center extends CommandGroup {
 		// LEFT SIDE
 		} 
 		else if (Robot.autoGameData != null && Robot.autoGameData.charAt(0) == 'L') {
-			addSequential(new TurnToAngle(-35, TurnToAngle.PIDType.SHORT, 5));
-			addSequential(new DriveToInch(70));
-			addSequential(new TurnToAngle(35, TurnToAngle.PIDType.SHORT, 5));
+			addSequential(new TurnToAngle(-40, TurnToAngle.PIDType.SHORT, 5));
+			addSequential(new DriveToInch(85));
+			addSequential(new TurnToAngle(40, TurnToAngle.PIDType.SHORT, 5));
 			// these numbers (as well as switch delivery in general) need testing
 			addSequential(new EjectorUp(5));
 			addSequential(new DriveToInch(25));

@@ -26,7 +26,7 @@ public class ScaleLeft extends CommandGroup {
 			addSequential(new DriveToInch(141));
 			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG, 5));
 			
-			Timer.delay(0.2);
+			addParallel(new DriveToInch(-20));
 			addSequential(new EjectorUp(5));
 			Timer.delay(0.2);
 			addSequential(new ScaleDeliveryTimed(3));
@@ -39,7 +39,7 @@ public class ScaleLeft extends CommandGroup {
 			addSequential(new DriveToInch(87));
 			addSequential(new TurnToAngle(-90, TurnToAngle.PIDType.LONG, 5));
 			addSequential(new DriveToInch(78));
-			addSequential(new TurnToAngle(90, TurnToAngle.PIDType.LONG, 5));
+			addSequential(new TurnToAngle(-90, TurnToAngle.PIDType.LONG, 5));
 			
 			addSequential(new EjectorUp(5));
 			//addSequential(new ScaleDeliveryTimed(3));

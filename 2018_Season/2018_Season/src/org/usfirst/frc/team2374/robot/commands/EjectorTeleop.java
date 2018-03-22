@@ -21,6 +21,18 @@ public class EjectorTeleop extends Command {
 	
 	@Override
 	protected void execute() {
+		Robot.eject.displayScaleSpeed();
+		
+		if (Robot.oi.getButtonM1Pressed())
+			Robot.eject.scaleSpeedLowDown();
+		else if (Robot.oi.getButtonM2Pressed())
+			Robot.eject.scaleSpeedLowUp();
+		
+		if (Robot.oi.getButtonBackPressed())
+			Robot.eject.scaleSpeedDown();
+		else if (Robot.oi.getButtonStartPressed())
+			Robot.eject.scaleSpeedUp();
+		
 		if (Robot.oi.getPOV() == 180) {
 			Robot.eject.scaleForward();
 			toggle = false;
@@ -47,12 +59,6 @@ public class EjectorTeleop extends Command {
 			Robot.eject.angleDown();
 		else if (Robot.oi.getRightBumper())
 			Robot.eject.angleUp(false);
-		else if (Robot.oi.getButtonY())
-			Robot.eject.angleStall();
-		else if (Robot.oi.getButtonM1())
-			Robot.eject.angleDownSlow();
-		else if (Robot.oi.getButtonM2())
-			Robot.eject.angleUpSlow();
 		else
 			Robot.eject.stopRotation();
 	}

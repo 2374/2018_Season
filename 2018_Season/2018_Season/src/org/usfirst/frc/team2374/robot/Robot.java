@@ -65,9 +65,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turn to 35", new TurnToAngle(35, TurnToAngle.PIDType.SHORT));
 		chooser.addObject("Turn to -35", new TurnToAngle(-35, TurnToAngle.PIDType.SHORT));*/
 		
-		/*chooser.addObject("Ejector up", new EjectorUp(5));
-		chooser.addObject("Switch timed", new SwitchDeliveryTimed(3));
-		chooser.addObject("Scale timed", new ScaleDeliveryTimed(3));*/
+		//chooser.addObject("Ejector up", new EjectorUp(5));
+		//chooser.addObject("Switch timed", new SwitchDeliveryTimed(3));
+		//chooser.addObject("Scale timed", new ScaleDeliveryTimed(3));
 		
 		//chooser.addObject("Drive 12 ft", new DriveToInch(144));
 		chooser.addObject("Drive 10 ft", new DriveToInch(120));
